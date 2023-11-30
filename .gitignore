@@ -9,10 +9,16 @@
 /[Bb]uilds/
 /[Ll]ogs/
 /[Uu]ser[Ss]ettings/
+*.dwlt
+*.log
+
 
 # MemoryCaptures can get excessive in size.
 # They also could contain extremely sensitive data
 /[Mm]emoryCaptures/
+Library/
+UserSettings/
+Logs/
 
 # Recordings can get excessive in size
 /[Rr]ecordings/
@@ -47,10 +53,12 @@ ExportedObj/
 *.opendb
 *.VC.db
 
+
 # Unity3D generated meta files
 *.pidb.meta
 *.pdb.meta
 *.mdb.meta
+
 
 # Unity3D generated file on crash reports
 sysinfo.txt
