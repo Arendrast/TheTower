@@ -19,6 +19,7 @@
 Library/
 UserSettings/
 Logs/
+Temp/
 
 # Recordings can get excessive in size
 /[Rr]ecordings/
