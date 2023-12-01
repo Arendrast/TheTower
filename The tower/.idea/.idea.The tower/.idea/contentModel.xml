@@ -6,8 +6,14 @@
     <e p="C:\Users\Arend\TheTower\The tower" t="IncludeRecursive">
       <e p="Assembly-CSharp.csproj" t="IncludeRecursive" />
       <e p="Assets" t="Include">
+        <e p="Prefabs" t="Include" />
         <e p="Scenes" t="Include" />
-        <e p="Tower.cs" t="Include" />
+        <e p="Scripts" t="Include">
+          <e p="Ammo.cs" t="Include" />
+          <e p="Enemy.cs" t="Include" />
+          <e p="SpawnEnemy.cs" t="Include" />
+          <e p="Tower.cs" t="Include" />
+        </e>
       </e>
       <e p="obj" t="ExcludeRecursive" />
       <e p="Packages" t="ExcludeRecursive" />
