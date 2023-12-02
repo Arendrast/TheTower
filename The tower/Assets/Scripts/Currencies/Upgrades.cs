@@ -64,7 +64,7 @@ public class Upgrades : MonoBehaviour
     {
         Damage,
         AttackSpeed,
-        CriticalChance,
+        CriticalDamageChance,
         CriticalFactor,
         Radius,
         DamageOnMeter,
@@ -107,7 +107,7 @@ public class Upgrades : MonoBehaviour
         
         InitializeAndConfigureUpgrade(_dictOfUpgrades[NamesOfUpgrades.Damage], NamesVariablesPlayerPrefs.DamageMultiplier, NamesVariablesPlayerPrefs.DamageUpgradeLevel);
         InitializeAndConfigureUpgrade(_dictOfUpgrades[NamesOfUpgrades.AttackSpeed], NamesVariablesPlayerPrefs.AttackSpeedMultiplier, NamesVariablesPlayerPrefs.AttackSpeedUpgradeLevel);
-        InitializeAndConfigureUpgrade(_dictOfUpgrades[NamesOfUpgrades.CriticalChance], NamesVariablesPlayerPrefs.CriticalChanceMultiplier, NamesVariablesPlayerPrefs.CriticalChanceUpgradeLevel);
+        InitializeAndConfigureUpgrade(_dictOfUpgrades[NamesOfUpgrades.CriticalDamageChance], NamesVariablesPlayerPrefs.CriticalChanceMultiplier, NamesVariablesPlayerPrefs.CriticalChanceUpgradeLevel);
         InitializeAndConfigureUpgrade(_dictOfUpgrades[NamesOfUpgrades.CriticalFactor], NamesVariablesPlayerPrefs.CriticalFactorMultiplier, NamesVariablesPlayerPrefs.CriticalFactorUpgradeLevel);
         InitializeAndConfigureUpgrade(_dictOfUpgrades[NamesOfUpgrades.Radius], NamesVariablesPlayerPrefs.RadiusMultiplier, NamesVariablesPlayerPrefs.RadiusUpgradeLevel);
         InitializeAndConfigureUpgrade(_dictOfUpgrades[NamesOfUpgrades.Health], NamesVariablesPlayerPrefs.HealthMultiplier, NamesVariablesPlayerPrefs.HealthUpgradeLevel);
@@ -201,8 +201,8 @@ public class Upgrades : MonoBehaviour
            NamesVariablesPlayerPrefs.AttackSpeedUpgradeLevel, ref _tower.AttackSpeed);
    
    public void ImproveCriticalChance() => ImproveSometing(PlayerPrefs.GetInt(NamesVariablesPlayerPrefs.CriticalChanceUpgradeLevel),
-           _dictOfUpgrades[NamesOfUpgrades.CriticalChance], NamesVariablesPlayerPrefs.CriticalChanceMultiplier,
-           NamesVariablesPlayerPrefs.CriticalChanceUpgradeLevel, ref _tower.CriticalChance);
+           _dictOfUpgrades[NamesOfUpgrades.CriticalDamageChance], NamesVariablesPlayerPrefs.CriticalChanceMultiplier,
+           NamesVariablesPlayerPrefs.CriticalChanceUpgradeLevel, ref _tower.CriticalDamageChance);
    
    public void ImproveCriticalFactor() => ImproveSometing(PlayerPrefs.GetInt(NamesVariablesPlayerPrefs.CriticalFactorUpgradeLevel),
        _dictOfUpgrades[NamesOfUpgrades.CriticalFactor], NamesVariablesPlayerPrefs.CriticalFactorMultiplier,
@@ -215,14 +215,22 @@ public class Upgrades : MonoBehaviour
    public void ImproveCriticalDamageOnMeter() => ImproveSometing(PlayerPrefs.GetInt(NamesVariablesPlayerPrefs.DamageOnMeterUpgradeLevel),
        _dictOfUpgrades[NamesOfUpgrades.DamageOnMeter], NamesVariablesPlayerPrefs.DamageOnMeterMultiplier,
        NamesVariablesPlayerPrefs.DamageOnMeterUpgradeLevel, ref _tower.DamageOnMeter);
-   
-   public void ImproveHealth() => ImproveSometing(PlayerPrefs.GetInt(NamesVariablesPlayerPrefs.HealthUpgradeLevel),
-       _dictOfUpgrades[NamesOfUpgrades.Health], NamesVariablesPlayerPrefs.HealthMultiplier,
-       NamesVariablesPlayerPrefs.HealthUpgradeLevel, ref _towerHealth.MaxHealPoint);
+
+   public void ImproveHealth()
+   {
+       var currentLvl = PlayerPrefs.GetInt(NamesVariablesPlayerPrefs.HealthUpgradeLevel);
+       var ratio = _towerHealth.CurrentHealth / _towerHealth.MaxHealPoint; 
+       ImproveSometing(PlayerPrefs.GetInt(NamesVariablesPlayerPrefs.HealthUpgradeLevel),
+           _dictOfUpgrades[NamesOfUpgrades.Health], NamesVariablesPlayerPrefs.HealthMultiplier,
+           NamesVariablesPlayerPrefs.HealthUpgradeLevel, ref _towerHealth.MaxHealPoint);
+
+       if (PlayerPrefs.GetInt(NamesVariablesPlayerPrefs.HealthUpgradeLevel) > currentLvl)
+        _towerHealth.CurrentHealPoint = ratio * _towerHealth.MaxHealPoint;
+   } 
    
    public void ImproveHealthRegeneration() => ImproveSometing(PlayerPrefs.GetInt(NamesVariablesPlayerPrefs.HealthRegenerationUpgradeLevel),
        _dictOfUpgrades[NamesOfUpgrades.HealthRegeneration], NamesVariablesPlayerPrefs.HealthRegenerationMultiplier,
-       NamesVariablesPlayerPrefs.HealthRegenerationUpgradeLevel, ref _towerHealth.SpeedHealthRegeneration);
+       NamesVariablesPlayerPrefs.HealthRegenerationUpgradeLevel, ref _towerHealth.unitOfHealthRegeneration);
 
    private void Improve(Upgrade upgrade, string nameValuePlayerPref, string nameVarLvlPlayerPref, bool isUseTwoListParameters = false)
    {

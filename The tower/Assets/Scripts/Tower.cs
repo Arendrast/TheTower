@@ -8,18 +8,20 @@ public class Tower : MonoBehaviour
     public float Damage;
     public float AttackSpeed;
     public float Radius;
-    public float CriticalChance;
+    public float CriticalDamageChance;
     public float CriticalFactor;
     public float DamageOnMeter;
 
+    [SerializeField] private float _distanceAtWhichMultiplierIsActivatedOnCriticalHits = 1;
     [SerializeField] private LayerMask _layerMaskOfEnemy;
-    [SerializeField] private Rigidbody2D _ammoRb;
+    [SerializeField] private Ammo _ammo;
     [SerializeField] private bool _isDrawAffectedArea = true;
 
     private bool _isRotate;
     private List<GameObject> _enemyListInRadius = new List<GameObject>();
     private GameObject _goal;
     private GameObject _currentAmmo;
+    private bool _isActiveMultiplierOnCriticalHits;
     private void FixedUpdate()
     {
         if (_currentAmmo)
@@ -38,14 +40,14 @@ public class Tower : MonoBehaviour
     private GameObject GetNearestGoal()
     {
         var goal = _enemyListInRadius[0];
+        var position = transform.position;
         for (var i = 0; i < _enemyListInRadius.Count; i++)
         {
             if (_enemyListInRadius[i] != gameObject)
             {
                 var currentEnemy = _enemyListInRadius[i];
                 
-                var position = transform.position;
-
+                
                 if (Vector2.Distance(position, currentEnemy.transform.position) <=
                     Vector2.Distance(position, goal.transform.position))
                 {
@@ -53,7 +55,12 @@ public class Tower : MonoBehaviour
                 }
             }
         }
+        
+        _isActiveMultiplierOnCriticalHits = Vector2.Distance(position, goal.transform.position) <= _distanceAtWhichMultiplierIsActivatedOnCriticalHits;
+        
         _enemyListInRadius.Clear();
+        
+        
 
         return goal;
     }
@@ -81,8 +88,10 @@ public class Tower : MonoBehaviour
     private void Attack()
     {
         var position = transform.position;
-        var ammo = Instantiate(_ammoRb, position, _ammoRb.transform.rotation);
-        ammo.AddForce((_goal.transform.position - position) * AttackSpeed);
+        var ammo = Instantiate(_ammo, position, _ammo.transform.rotation);
+        ammo.Damage = _isActiveMultiplierOnCriticalHits ? Damage * CriticalFactor : Damage;
+        ammo.CriticalDamageChance = CriticalDamageChance;
+        ammo.RigidBody.AddForce((_goal.transform.position - position) * AttackSpeed);
         _currentAmmo = ammo.gameObject;
     }
     
