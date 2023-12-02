@@ -5,11 +5,15 @@ using UnityEngine;
 
 public class Tower : MonoBehaviour
 {
-    [SerializeField] private float _radius;
-    //[SerializeField] private float _rotationSpeed;
+    public float Damage;
+    public float AttackSpeed;
+    public float Radius;
+    public float CriticalChance;
+    public float CriticalFactor;
+    public float DamageOnMeter;
+
     [SerializeField] private LayerMask _layerMaskOfEnemy;
     [SerializeField] private Rigidbody2D _ammoRb;
-    [SerializeField] private float _ammoVelocity;
     [SerializeField] private bool _isDrawAffectedArea = true;
 
     private bool _isRotate;
@@ -57,7 +61,7 @@ public class Tower : MonoBehaviour
     private bool IsEnemyFound()
     {
         var position = transform.position;
-        var colliderArray = Physics2D.OverlapCircleAll(position, _radius, _layerMaskOfEnemy);
+        var colliderArray = Physics2D.OverlapCircleAll(position, Radius, _layerMaskOfEnemy);
         
         if (colliderArray.Length > 0)
         {
@@ -78,7 +82,7 @@ public class Tower : MonoBehaviour
     {
         var position = transform.position;
         var ammo = Instantiate(_ammoRb, position, _ammoRb.transform.rotation);
-        ammo.AddForce((_goal.transform.position - position) * _ammoVelocity);
+        ammo.AddForce((_goal.transform.position - position) * AttackSpeed);
         _currentAmmo = ammo.gameObject;
     }
     
@@ -93,7 +97,7 @@ public class Tower : MonoBehaviour
         if (_isDrawAffectedArea)
         {
             Gizmos.color = Color.red;
-            Gizmos.DrawWireSphere(transform.position, _radius);
+            Gizmos.DrawWireSphere(transform.position, Radius);
         }
     }
     

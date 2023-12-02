@@ -10,9 +10,19 @@
         <e p="Scenes" t="Include" />
         <e p="Scripts" t="Include">
           <e p="Ammo.cs" t="Include" />
+          <e p="Currencies" t="Include">
+            <e p="Crystal.cs" t="Include" />
+            <e p="Currency.cs" t="Include" />
+            <e p="Money.cs" t="Include" />
+            <e p="NamesVariablesPlayerPrefs.cs" t="Include" />
+            <e p="SCurrency.cs" t="Include" />
+            <e p="Upgrades.cs" t="Include" />
+          </e>
           <e p="Enemy.cs" t="Include" />
+          <e p="Health.cs" t="Include" />
           <e p="SpawnEnemy.cs" t="Include" />
           <e p="Tower.cs" t="Include" />
+          <e p="TowerHealth.cs" t="Include" />
         </e>
       </e>
       <e p="obj" t="ExcludeRecursive" />

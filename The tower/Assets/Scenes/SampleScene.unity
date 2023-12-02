@@ -270,26 +270,26 @@ MonoBehaviour:
   _waveList:
   - <ListOfStages>k__BackingField:
     - <EnemyList>k__BackingField:
-      - <Prefab>k__BackingField: {fileID: 7650163352446075073, guid: b8d7e6bec188ba540ab95aaaeded4e64, type: 3}
+      - <Enemy>k__BackingField: {fileID: 3120398571260050361, guid: b8d7e6bec188ba540ab95aaaeded4e64, type: 3}
         <TimeToSpawn>k__BackingField: 1
         <Number>k__BackingField: 3
-      - <Prefab>k__BackingField: {fileID: 7650163352446075073, guid: b8d7e6bec188ba540ab95aaaeded4e64, type: 3}
+      - <Enemy>k__BackingField: {fileID: 3120398571260050361, guid: b8d7e6bec188ba540ab95aaaeded4e64, type: 3}
         <TimeToSpawn>k__BackingField: 2
         <Number>k__BackingField: 1
     - <EnemyList>k__BackingField:
-      - <Prefab>k__BackingField: {fileID: 7650163352446075073, guid: b8d7e6bec188ba540ab95aaaeded4e64, type: 3}
+      - <Enemy>k__BackingField: {fileID: 3120398571260050361, guid: b8d7e6bec188ba540ab95aaaeded4e64, type: 3}
         <TimeToSpawn>k__BackingField: 1
         <Number>k__BackingField: 3
   - <ListOfStages>k__BackingField:
     - <EnemyList>k__BackingField:
-      - <Prefab>k__BackingField: {fileID: 7650163352446075073, guid: b8d7e6bec188ba540ab95aaaeded4e64, type: 3}
+      - <Enemy>k__BackingField: {fileID: 3120398571260050361, guid: b8d7e6bec188ba540ab95aaaeded4e64, type: 3}
         <TimeToSpawn>k__BackingField: 1
         <Number>k__BackingField: 3
-      - <Prefab>k__BackingField: {fileID: 7650163352446075073, guid: b8d7e6bec188ba540ab95aaaeded4e64, type: 3}
+      - <Enemy>k__BackingField: {fileID: 3120398571260050361, guid: b8d7e6bec188ba540ab95aaaeded4e64, type: 3}
         <TimeToSpawn>k__BackingField: 2
         <Number>k__BackingField: 1
     - <EnemyList>k__BackingField:
-      - <Prefab>k__BackingField: {fileID: 7650163352446075073, guid: b8d7e6bec188ba540ab95aaaeded4e64, type: 3}
+      - <Enemy>k__BackingField: {fileID: 3120398571260050361, guid: b8d7e6bec188ba540ab95aaaeded4e64, type: 3}
         <TimeToSpawn>k__BackingField: 1
         <Number>k__BackingField: 3
 --- !u!1 &710375555
@@ -499,7 +499,7 @@ SpriteRenderer:
   m_LightmapParameters: {fileID: 0}
   m_SortingLayerID: 0
   m_SortingLayer: 0
-  m_SortingOrder: -1
+  m_SortingOrder: -5
   m_Sprite: {fileID: 7482667652216324306, guid: 311925a002f4447b3a28927169b83ea6, type: 3}
   m_Color: {r: 0, g: 0, b: 0, a: 1}
   m_FlipX: 0
