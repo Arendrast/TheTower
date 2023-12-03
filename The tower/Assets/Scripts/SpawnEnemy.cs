@@ -112,8 +112,6 @@ public class SpawnEnemy : MonoBehaviour
                                     _radiusOfSpawnArea * Mathf.Deg2Rad * Mathf.Sin(angle)),
                                 group.Enemy.transform.rotation);
 
-                            currentEnemy.SpawnEnemy = this;
-                            
                             listOfSectorIndexes.Remove(sectorIndex);
                             if (listOfSectorIndexes.Count == 0)
                                 listOfSectorIndexes = new List<int> {1, 2, 3, 4};

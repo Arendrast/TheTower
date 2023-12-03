@@ -4,8 +4,8 @@ using UnityEngine.Events;
 public class Health : MonoBehaviour
 {
     public bool IsDie { get; private set; }
-    public float MaxHealPoint  = 100;
-    [field: SerializeField] public float CurrentHealPoint { get; private set; } = 100;
+    public float MaxHealPoint  = 100; 
+    public float CurrentHealPoint  = 100;
     [SerializeField] protected UnityEvent eventOnDie;
     [field: SerializeField] public float CurrentHealth { get; protected set; }
 

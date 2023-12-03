@@ -6,13 +6,7 @@ using UnityEngine;
 public class Currency : MonoBehaviour
 {
     public int SumAll { get; private set; }
-    
-    [field: SerializeField] public List<Transform> ListTransformsUI { get; private set; }
-    [field: SerializeField] public AudioSource SoundOnMove { get; private set; }
-    [field: SerializeField] public RectTransform LastPointOfAnimationOfMove { get; private set; }
-    [field: SerializeField] public float TimeOfAnimationOfOneElement { get; private set; } = 0.5f;
-    [field: SerializeField] public float TimeBeforeBeginMoveNextElement { get; private set; } = 0.1f;
-    
+
     [SerializeField] private TMP_Text _text;
     [SerializeField] private int _numberAfterResetToZero;
     [SerializeField] private float _timeOfAccumulationAllGettingCurrency = 2f;
@@ -48,12 +42,6 @@ public class Currency : MonoBehaviour
 
         Number = PlayerPrefs.GetInt(nameVariableInPlayerPref);
         SumAll = Number;
-        
-        foreach (var transformUI in ListTransformsUI)
-        {
-            if (transformUI)
-                transformUI.gameObject.SetActive(false);
-        }
     }
     
     public void SaveInPlayerPref() => PlayerPrefs.SetInt(nameVariableInPlayerPref, number);

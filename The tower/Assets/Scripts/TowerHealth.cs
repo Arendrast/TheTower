@@ -4,16 +4,20 @@ using UnityEngine;
 
 public class TowerHealth : Health
 {
-    public float SpeedHealthRegeneration;
-    // Start is called before the first frame update
-    void Start()
+    public float unitOfHealthRegeneration;
+    [SerializeField] private float _regenerationFrequencyInSec = 1;
+
+    private new void Start()
     {
-        
+        base.Start();
+        StartCoroutine(Regenerate());
     }
 
-    // Update is called once per frame
-    void Update()
+    private IEnumerator Regenerate()
     {
-        
+        yield return new WaitForSeconds(_regenerationFrequencyInSec);
+        RestoreHealth(unitOfHealthRegeneration);
+
+        StartCoroutine(Regenerate());
     }
 }

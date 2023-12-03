@@ -323,12 +323,17 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: e2ba824b1bd536d48bb1a71b0305084e, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  _radius: 1.5
+  Damage: 0
+  AttackSpeed: 100
+  Radius: 1.5
+  CriticalDamageChance: 0
+  CriticalFactor: 0
+  DamageOnMeter: 0
+  _distanceAtWhichMultiplierIsActivatedOnCriticalHits: 1
   _layerMaskOfEnemy:
     serializedVersion: 2
     m_Bits: 8
-  _ammoRb: {fileID: -3300531479198603684, guid: 55466fbfc772d454c8de3b7b154639c8, type: 3}
-  _ammoVelocity: 100
+  _ammo: {fileID: -9118728204642362713, guid: 55466fbfc772d454c8de3b7b154639c8, type: 3}
   _isDrawAffectedArea: 1
 --- !u!212 &710375557
 SpriteRenderer:
