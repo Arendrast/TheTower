@@ -13,6 +13,7 @@ GameObject:
   - component: {fileID: 4925476705307441390}
   - component: {fileID: 3120398571260050361}
   - component: {fileID: 3739016294934461530}
+  - component: {fileID: 8721665211976319653}
   m_Layer: 3
   m_Name: Enemy
   m_TagString: Untagged
@@ -146,7 +147,7 @@ MonoBehaviour:
   m_EditorClassIdentifier: 
   _endPointOfMovement: {x: 0, y: 1.56, z: 0}
   _velocityMovement: 1.5
-  _rb: {fileID: 3739016294934461530}
+  _rb: {fileID: 0}
 --- !u!50 &3739016294934461530
 Rigidbody2D:
   serializedVersion: 4
@@ -174,3 +175,33 @@ Rigidbody2D:
   m_SleepingMode: 1
   m_CollisionDetection: 0
   m_Constraints: 0
+--- !u!114 &8721665211976319653
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 7650163352446075073}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 5ce5d8234ab99b54f84e6363b63a0cc4, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  MaxHealPoint: 100
+  CurrentHealPoint: 100
+  OnDie:
+    m_PersistentCalls:
+      m_Calls:
+      - m_Target: {fileID: 8721665211976319653}
+        m_TargetAssemblyTypeName: General.Health, Assembly-CSharp
+        m_MethodName: Destroy
+        m_Mode: 1
+        m_Arguments:
+          m_ObjectArgument: {fileID: 0}
+          m_ObjectArgumentAssemblyTypeName: UnityEngine.Object, UnityEngine
+          m_IntArgument: 0
+          m_FloatArgument: 0
+          m_StringArgument: 
+          m_BoolArgument: 0
+        m_CallState: 2
+  <CurrentHealth>k__BackingField: 0

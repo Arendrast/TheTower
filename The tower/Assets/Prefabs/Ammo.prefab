@@ -126,6 +126,9 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 6d36dd0b00ec79e4dbeaae1d2d06e97f, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
+  Damage: 0
+  CriticalDamageChance: 0
+  MultiplierCriticalDamage: 0
   <RigidBody>k__BackingField: {fileID: -3300531479198603684}
 --- !u!61 &-8585495985030605421
 BoxCollider2D:

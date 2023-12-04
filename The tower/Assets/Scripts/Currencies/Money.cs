@@ -1,14 +1,17 @@
 using UnityEngine;
 
-public class Money : Currency
+namespace Currencies
 {
-    [HideInInspector] public int GettingMoneyForLvl;
-    private const string NameMoneyPlayerPref = "Money";
-
-    private new void Awake()
+    public class Money : Currency
     {
-        nameVariableInPlayerPref = NameMoneyPlayerPref;
-        base.Awake();
-    }
+        [HideInInspector] public int GettingMoneyForLvl;
+        private const string NameMoneyPlayerPref = "Money";
 
+        private new void Awake()
+        {
+            nameVariableInPlayerPref = NameMoneyPlayerPref;
+            base.Awake();
+        }
+
+    }
 }

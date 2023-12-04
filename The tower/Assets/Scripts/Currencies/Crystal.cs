@@ -1,15 +1,13 @@
-using System;
-using System.Collections.Generic;
-using TMPro;
-using UnityEngine;
-
-public class Crystal : Currency
+namespace Currencies
 {
-    private const string NameCrystalPlayerPref = "Crystal";
-
-    private new void Awake()
+    public class Crystal : Currency
     {
-        nameVariableInPlayerPref = NameCrystalPlayerPref;
-        base.Awake();
+        private const string NameCrystalPlayerPref = "Crystal";
+
+        private new void Awake()
+        {
+            nameVariableInPlayerPref = NameCrystalPlayerPref;
+            base.Awake();
+        }
     }
 }
