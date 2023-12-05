@@ -16,16 +16,23 @@ namespace Enemies
         [SerializeField] private float _timeBeforeStartNextWave = 0.5f;
         [SerializeField] private float _timeBeforeStartOneWave = 1f;
         [SerializeField] private Transform _player;
-        [SerializeField] private Slider _sliderWave;
-        [SerializeField] private TMP_Text _textNumberWave;
         [SerializeField] private bool _isDrawSpawnZone = true;
         [SerializeField] private List<Wave> _waveList = new List<Wave>();
 
+        [Space] [Header("Slider")] 
+        [SerializeField] private float _speedMovementSliderWavePerSecond = 0.5f;
+        [SerializeField] private Slider _sliderWave;
+        [SerializeField] private TMP_Text _textNumberWave;
+
+        private bool _isNeedToToTopUpSlider;
         private bool _isPlayerLoose;
         private int _currentWave;
-        private int _currentNumberEnemyOnStage;
-        private int _currentNumberEnemyOnWave;
+        private int _numberEnemyOnStage;
+        private int _numberEnemyOnWave;
+        private int _currentNumberEnemyOnScene;
         private const float FullAngle = 360;
+        private IEnumerator _currentSliderFillingCoroutine;
+        private float _currentEndValueOfSlider;
 
         [Serializable]
         public class GroupOfEnemies
@@ -47,10 +54,33 @@ namespace Enemies
             [field: SerializeField] public List<GroupOfEnemies> EnemyList { get; private set; }
         }
 
+        private IEnumerator FillSlider()
+        {
+            if (_currentSliderFillingCoroutine != null)
+                StopCoroutine(_currentSliderFillingCoroutine);
+
+            if (Math.Abs(_sliderWave.value - _currentEndValueOfSlider) > Constants.Epsilon)
+                _sliderWave.value = _currentEndValueOfSlider;
+            
+            _currentEndValueOfSlider = _numberEnemyOnWave - _currentNumberEnemyOnScene;
+            _currentSliderFillingCoroutine = FillSlider();
+            
+            while (Math.Abs(_sliderWave.value - _currentEndValueOfSlider) > Constants.Epsilon)
+            {
+                _sliderWave.value = Mathf.MoveTowards(
+                    _sliderWave.value,
+                    _numberEnemyOnWave - _currentNumberEnemyOnScene,
+                    _speedMovementSliderWavePerSecond * Time.deltaTime);
+
+                yield return null;
+            }
+        }
+
         public void Initialize()
         {
             StartCoroutine(StartNewWave(_timeBeforeStartOneWave));
             _textNumberWave.text = $"1/{_waveList.Count}";
+            _sliderWave.value = 0;
         }
 
         private IEnumerator StartNewWave(float timeToStart = 0)
@@ -58,7 +88,9 @@ namespace Enemies
             yield return new WaitForSeconds(timeToStart);
         
             var listOfStages = _waveList[_currentWave].ListOfStages;
-        
+            _textNumberWave.text = $"{_currentWave + 1}/{_waveList.Count}";
+
+            _numberEnemyOnWave = 0;
             foreach (var stage in listOfStages)
             {
                 for (var enemyGroupIndex = 0; enemyGroupIndex < stage.EnemyList.Count; enemyGroupIndex++)
@@ -66,7 +98,7 @@ namespace Enemies
                     var enemyGroup = stage.EnemyList[enemyGroupIndex];
                     if (enemyGroup.Enemy && enemyGroup.Number > 0)
                     {
-                        _currentNumberEnemyOnWave += enemyGroup.Number;
+                        _numberEnemyOnWave += enemyGroup.Number;
                     }
                     else
                     {
@@ -74,6 +106,11 @@ namespace Enemies
                     }
                 }
             }
+
+            _sliderWave.value = 0;
+            _currentEndValueOfSlider = 0;
+            StopCoroutine(FillSlider());
+            _sliderWave.maxValue = _numberEnemyOnWave;
         
             for (var stageIndex = 0; stageIndex < listOfStages.Count; stageIndex++)
             {
@@ -82,17 +119,12 @@ namespace Enemies
             
                 foreach (var enemyGroup in enemyList)
                 {
-                    _currentNumberEnemyOnStage += enemyGroup.Number;   
+                    _numberEnemyOnStage += enemyGroup.Number;   
                     enemyListWithValidEnemyGroup.Add(enemyGroup);
                 }
 
-                if (_currentNumberEnemyOnStage == 0)
+                if (_numberEnemyOnStage == 0)
                     break;
-
-                //_numberEnemyOnWave = 0;
-
-                //_sliderWave.value = 0;
-                //_sliderWave.maxValue = _numberEnemyOnWave;
 
                 var time = 0f;
                 const float QuaterCircle = FullAngle / 4;
@@ -121,6 +153,7 @@ namespace Enemies
                                     listOfSectorIndexes = new List<int> {1, 2, 3, 4};
                             }
 
+                            _currentNumberEnemyOnScene += group.Number;
                             enemyListWithValidEnemyGroup.Remove(group);
                         }
                     }
@@ -128,11 +161,9 @@ namespace Enemies
                     time += Time.deltaTime;
                     yield return null;
                 }
-            
-                yield return new WaitUntil(() => _currentNumberEnemyOnStage == 0);
+                
+                yield return new WaitUntil(() => _currentNumberEnemyOnScene == 0);
             }
-        
-            yield return new WaitUntil(() => _currentNumberEnemyOnWave == 0);
 
             if (_currentWave + 1 != _waveList.Count)
             {
@@ -144,9 +175,10 @@ namespace Enemies
 
         private void ReduceNumberEnemies()
         {
-            _currentNumberEnemyOnStage--;
-            _currentNumberEnemyOnWave--;
+            _currentNumberEnemyOnScene--;
+            StartCoroutine(FillSlider());
         } 
+        
 
         private void OnDrawGizmos()
         {

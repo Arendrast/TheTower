@@ -6,6 +6,11 @@ namespace Enemies
 {
     public class EnemyHealth : Health
     {
+        private new void Start()
+        {
+            base.Start();
+        }
+
         private void OnTriggerEnter2D(Collider2D other)
         {
             if (other.TryGetComponent<Ammo>(out var ammo))

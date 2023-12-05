@@ -9,6 +9,7 @@
         <e p="Images" t="Include">
           <e p="Icons" t="Include" />
         </e>
+        <e p="Materials" t="Include" />
         <e p="Prefabs" t="Include">
           <e p="UI" t="Include" />
         </e>
@@ -27,9 +28,11 @@
           </e>
           <e p="General" t="Include">
             <e p="Bootstrapper.cs" t="Include" />
+            <e p="Constants.cs" t="Include" />
             <e p="Health.cs" t="Include" />
             <e p="IObjectBeindInitialized.cs" t="Include" />
             <e p="NamesVariablesPlayerPrefs.cs" t="Include" />
+            <e p="Particles.cs" t="Include" />
             <e p="Upgrades.cs" t="Include" />
             <e p="UpgradesPanel.cs" t="Include" />
           </e>
@@ -37,7 +40,6 @@
             <e p="ReadOnlyInspectorAttribute.cs" t="Include" />
             <e p="ReadOnlyInspectorDrawer.cs" t="Include" />
           </e>
-          <e p="Other" t="Include" />
           <e p="Player" t="Include">
             <e p="Ammo.cs" t="Include" />
             <e p="Tower.cs" t="Include" />

@@ -11,6 +11,7 @@ GameObject:
   - component: {fileID: 7253268852327787321}
   - component: {fileID: 9111536047399362631}
   - component: {fileID: 3864483539829238819}
+  - component: {fileID: 8948787284614045455}
   m_Layer: 3
   m_Name: Particle System
   m_TagString: Untagged
@@ -43,14 +44,14 @@ ParticleSystem:
   serializedVersion: 8
   lengthInSec: 1
   simulationSpeed: 0.5
-  stopAction: 0
+  stopAction: 3
   cullingMode: 0
   ringBufferMode: 0
   ringBufferLoopRange: {x: 0, y: 1}
   emitterVelocityMode: 1
   looping: 0
   prewarm: 0
-  playOnAwake: 1
+  playOnAwake: 0
   useUnscaledTime: 0
   autoRandomSeed: 0
   startDelay:
@@ -4828,6 +4829,18 @@ ParticleSystemRenderer:
   m_MeshWeighting2: 1
   m_MeshWeighting3: 1
   m_MaskInteraction: 0
+--- !u!114 &8948787284614045455
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 4780827253767083765}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: dd46d87628d0f3148abc9a370c95ca0a, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
 --- !u!1 &7650163352446075073
 GameObject:
   m_ObjectHideFlags: 0
@@ -4905,7 +4918,7 @@ SpriteRenderer:
   m_LightmapParameters: {fileID: 0}
   m_SortingLayerID: 0
   m_SortingLayer: 0
-  m_SortingOrder: 0
+  m_SortingOrder: 1
   m_Sprite: {fileID: 21300000, guid: dc09f427f273b04499077305cdfda64d, type: 3}
   m_Color: {r: 1, g: 1, b: 1, a: 1}
   m_FlipX: 0
@@ -4975,8 +4988,10 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: 
   _endPointOfMovement: {x: 0, y: 1.56, z: 0}
+  _enemyHealth: {fileID: 8721665211976319653}
+  _rb: {fileID: 3739016294934461530}
   _velocityMovement: 1.5
-  _rb: {fileID: 0}
+  _damage: 25
 --- !u!50 &3739016294934461530
 Rigidbody2D:
   serializedVersion: 4
@@ -5016,14 +5031,12 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 5ce5d8234ab99b54f84e6363b63a0cc4, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  MaxHealPoint: 100
-  CurrentHealPoint: 100
   OnDie:
     m_PersistentCalls:
       m_Calls:
       - m_Target: {fileID: 8721665211976319653}
         m_TargetAssemblyTypeName: General.Health, Assembly-CSharp
-        m_MethodName: Destroy
+        m_MethodName: BecomeTransparent
         m_Mode: 1
         m_Arguments:
           m_ObjectArgument: {fileID: 0}
@@ -5033,4 +5046,33 @@ MonoBehaviour:
           m_StringArgument: 
           m_BoolArgument: 0
         m_CallState: 2
-  <CurrentHealth>k__BackingField: 0
+      - m_Target: {fileID: 9111536047399362631}
+        m_TargetAssemblyTypeName: UnityEngine.ParticleSystem, UnityEngine
+        m_MethodName: Play
+        m_Mode: 1
+        m_Arguments:
+          m_ObjectArgument: {fileID: 0}
+          m_ObjectArgumentAssemblyTypeName: UnityEngine.Object, UnityEngine
+          m_IntArgument: 0
+          m_FloatArgument: 0
+          m_StringArgument: 
+          m_BoolArgument: 0
+        m_CallState: 2
+      - m_Target: {fileID: 7650163352446075073}
+        m_TargetAssemblyTypeName: UnityEngine.GameObject, UnityEngine
+        m_MethodName: set_layer
+        m_Mode: 3
+        m_Arguments:
+          m_ObjectArgument: {fileID: 0}
+          m_ObjectArgumentAssemblyTypeName: UnityEngine.Object, UnityEngine
+          m_IntArgument: 8
+          m_FloatArgument: 0
+          m_StringArgument: 
+          m_BoolArgument: 0
+        m_CallState: 2
+  OnTakeDamage:
+    m_PersistentCalls:
+      m_Calls: []
+  maxHealPoint: 100
+  _currentHealthPoint: 0
+  _spriteRenderer: {fileID: 3267248957783228542}

@@ -1,3 +1,4 @@
+using MyCustomEditor;
 using UnityEngine;
 using UnityEngine.Events;
 
@@ -5,36 +6,57 @@ namespace General
 {
     public class Health : MonoBehaviour
     {
-        public bool IsDie { get; private set; }
-        public float MaxHealPoint  = 100; 
-        public float CurrentHealPoint  = 100;
+        public float CurrentHealthPoint
+        {
+            get => _currentHealthPoint;
+            set => _currentHealthPoint = value;
+        }
+
         public UnityEvent OnDie;
-        [field: SerializeField] public float CurrentHealth { get; protected set; }
+        public UnityEvent OnTakeDamage;
+       
+        public bool IsDie { get; private set; }
+
+        [SerializeField] protected float maxHealPoint = 100;
+        [ReadOnlyInspector] [SerializeField] protected float _currentHealthPoint;
+
+        [SerializeField] private SpriteRenderer _spriteRenderer;
 
 
         protected void Start()
         {
-            CurrentHealPoint = MaxHealPoint;
+            CurrentHealthPoint = maxHealPoint;
+            if (!_spriteRenderer)
+                _spriteRenderer = GetComponent<SpriteRenderer>();
         }
 
         public void TakeDamage(float damage)
         {
-            if (IsDie)
+            if (IsDie || damage <= 0)
                 return;
-
-            if (CurrentHealth - damage > 0)
+            
+            if (CurrentHealthPoint - damage > 0)
             {
-                CurrentHealth -= damage;
+                CurrentHealthPoint = _currentHealthPoint - damage;
+                OnTakeDamage?.Invoke();
             }
             else
             {
+                _currentHealthPoint = 0;
+                IsDie = true;
                 OnDie?.Invoke();
             }
         }
 
-        public void RestoreHealth(float recoverySize) => CurrentHealth = CurrentHealth + recoverySize < MaxHealPoint ? CurrentHealth + recoverySize : MaxHealPoint;
+        public void RestoreHealth(float recoverySize) => CurrentHealthPoint = CurrentHealthPoint + recoverySize < maxHealPoint ? CurrentHealthPoint + recoverySize : maxHealPoint;
     
 
         public void Destroy() => Destroy(gameObject);
+
+        public void BecomeTransparent()
+        {
+            var currentColor = _spriteRenderer.color;
+            _spriteRenderer.color = new Color(currentColor.r, currentColor.g, currentColor.b, 0);
+        }
     }
 }

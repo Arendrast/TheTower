@@ -1,11 +1,11 @@
 using System.Collections.Generic;
 using System.Linq;
-using MyCustomEditor;
+using General;
 using UnityEngine;
 
 namespace Player
 {
-    public class Tower : MonoBehaviour
+    public class Tower : MonoBehaviour, IObjectBeindInitialized
     {
         public float Damage;
         public float AttackSpeed;
@@ -18,6 +18,7 @@ namespace Player
         [SerializeField] private float _distanceAtWhichMultiplierIsActivatedOnCriticalHits = 1;
         [SerializeField] private LayerMask _layerMaskOfEnemy;
         [SerializeField] private Ammo _ammo;
+        [SerializeField] private TowerHealth _health;
         [SerializeField] private bool _isDrawAffectedArea = true;
 
         private bool _isRotate;
@@ -26,12 +27,31 @@ namespace Player
         private GameObject _currentAmmo;
         private bool _isActiveMultiplierOnCriticalHits;
         private bool _isActiveMultiplierDamageOnMeter;
+
+        public void Initialize()
+        {
+            Damage = PlayerPrefs.GetFloat(NamesVariablesPlayerPrefs.Damage);
+            AttackSpeed = PlayerPrefs.GetFloat(NamesVariablesPlayerPrefs.AttackSpeed);
+            Radius = PlayerPrefs.GetFloat(NamesVariablesPlayerPrefs.Radius);
+            CriticalDamageChance = PlayerPrefs.GetFloat(NamesVariablesPlayerPrefs.CriticalChance);
+            CriticalFactor = PlayerPrefs.GetFloat(NamesVariablesPlayerPrefs.CriticalFactor);
+            DamageOnMeter = PlayerPrefs.GetFloat(NamesVariablesPlayerPrefs.DamageOnMeter);
+
+        }
         private void FixedUpdate()
         {
-            if (_currentAmmo)
+            if (_health.IsDie)
                 return;
-        
-            if (_goal)
+            
+            else if (_currentAmmo)
+            {
+                if (1 << _goal.layer != _layerMaskOfEnemy)
+                    Destroy(_currentAmmo);
+                else
+                    return;
+            }
+
+            if (_goal && 1 << _goal.layer == _layerMaskOfEnemy)
                 Attack();
         
             else if (IsEnemyFound())
@@ -115,7 +135,11 @@ namespace Player
                 Gizmos.DrawWireSphere(transform.position, Radius);
             }
         }
-    
-    
+
+        public void DestroyAmmo()
+        {
+          if (_currentAmmo) 
+              Destroy(_currentAmmo);
+        } 
     }
 }
