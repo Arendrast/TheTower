@@ -12,7 +12,7 @@ using UnityEngine.UI;
 
 namespace General
 {
-    public class Upgrades : MonoBehaviour
+    public class Upgrades : MonoBehaviour, IObjectBeindInitialized
     {
         [SerializeField] private List<Upgrade> _listOfUpgrades;
     
@@ -30,7 +30,7 @@ namespace General
     
         private int _maxOpenLevel;
         private int _currentLvl;
-        private const int IndexOfFirstLevelOfUpgrades = 1;
+        private const int IndexOfFirstLevelOfUpgrades = 0;
 
         [Serializable]
         public class Upgrade
@@ -76,7 +76,7 @@ namespace General
             HealthRegeneration
         }
 
-        private void Awake()
+        public void Initialize()
         {
             var listOfNamesOfUpgrades = Enum.GetValues(typeof(NamesOfUpgrades)).Cast<NamesOfUpgrades>().ToList();
             for (var i = 0; i < listOfNamesOfUpgrades.Count; i++)
@@ -98,10 +98,10 @@ namespace General
                 upgrade.UseButton.image.sprite = upgrade.DefaultSprite;
             }
 
-            Initialize();
+            InitializeUpgrades();
         }
 
-        private void Initialize()
+        private void InitializeUpgrades()
         {
             if (!PlayerPrefs.HasKey(NamesVariablesPlayerPrefs.MaxOpenLvl))
                 PlayerPrefs.SetInt(NamesVariablesPlayerPrefs.MaxOpenLvl, 1);
@@ -121,24 +121,18 @@ namespace General
         private IEnumerator UpdateStateOfButton(Upgrade upgrade, int indexLevel)
         {
             var requiredLvl = upgrade.ListOfParameters[indexLevel].RequiredLevel;
-       
-            if (_maxOpenLevel < requiredLvl && _currentLvl < requiredLvl)
-            {
-                upgrade.TextOfPrice.gameObject.SetActive(false);
-                //upgrade.TextOfRequiredLvl.gameObject.SetActive(true);
 
-                //upgrade.TextOfRequiredLvl.text = requiredLvl.ToString();
-                upgrade.UseButton.enabled = false;
-                if (upgrade.SpriteOnClosed)
-                    upgrade.UseButton.image.sprite = upgrade.SpriteOnClosed;
-                if (upgrade.ColorOnClosed != Color.black)
-                    upgrade.UseButton.image.color = upgrade.ColorOnClosed;
-            }
+            if (_maxOpenLevel < requiredLvl && _currentLvl < requiredLvl || upgrade.MaxLvl <= indexLevel + 1)
+                MakeClosedStateOfButton(upgrade);
+            
             else
             {
                 if (upgrade.ListOfParameters[indexLevel].Price > _money.Number)
+                {
+                    MakeClosedStateOfButton(upgrade);
                     yield return new WaitUntil(() => upgrade.ListOfParameters[indexLevel].Price <= _money.Number);
-            
+                }
+
                 upgrade.TextOfPrice.gameObject.SetActive(true);
                 //upgrade.TextOfRequiredLvl.gameObject.SetActive(false);
 
@@ -147,6 +141,17 @@ namespace General
                 if (upgrade.ColorOnOpened != Color.black)
                     upgrade.UseButton.image.color = upgrade.ColorOnOpened;
             }
+        }
+
+        private void MakeClosedStateOfButton(Upgrade upgrade)
+        {
+            //upgrade.TextOfRequiredLvl.gameObject.SetActive(true);
+            //upgrade.TextOfRequiredLvl.text = requiredLvl.ToString();
+            upgrade.UseButton.enabled = false;
+            if (upgrade.SpriteOnClosed)
+                upgrade.UseButton.image.sprite = upgrade.SpriteOnClosed;
+            if (upgrade.ColorOnClosed != Color.black)
+                upgrade.UseButton.image.color = upgrade.ColorOnClosed;
         }
 
         private void InitializeAndConfigureUpgrade(Upgrade upgrade, string namePlayerPref, string nameVarLvlPlayerPref)
@@ -159,19 +164,7 @@ namespace General
                 PlayerPrefs.SetInt(nameVarLvlPlayerPref, IndexOfFirstLevelOfUpgrades);
             }
 
-            var index = PlayerPrefs.GetInt(nameVarLvlPlayerPref) - 1;
-
-            var requiredLvl = listOfParameters[IndexOfElementOfFirstUpgrade].RequiredLevel;
-            var isUpgradeOpened = requiredLvl <= _currentLvl || requiredLvl <= _maxOpenLevel;
-
-            if (!isUpgradeOpened)
-            {
-                upgrade.TextOfPrice.gameObject.SetActive(false);
-                //upgrade.TextOfRequiredLvl.gameObject.SetActive(true);
-                upgrade.UseButton.image.sprite = upgrade.SpriteOnClosed;
-                //upgrade.TextOfRequiredLvl.text = requiredLvl.ToString();
-                upgrade.UseButton.enabled = false;
-            }
+            var index = PlayerPrefs.GetInt(nameVarLvlPlayerPref);
 
             SetTexts(new List<TMP_Text> {upgrade.TextOfPrice, upgrade.TextOfLvl}, new List<string>
             {
@@ -180,8 +173,8 @@ namespace General
                     : listOfParameters[index].Price.ToString(),
                 (index + 1).ToString()
             });
-       
-            StartCoroutine(UpdateStateOfButton(upgrade, PlayerPrefs.GetInt(namePlayerPref)));
+
+            StartCoroutine(UpdateStateOfButton(upgrade, PlayerPrefs.GetInt(nameVarLvlPlayerPref)));
         }
    
 
@@ -253,7 +246,7 @@ namespace General
             //if (isUseTwoListParameters)
                 //listOfParameters = upgrade.ListOfParametersOfSecondParameter;
 
-            if (index < upgrade.MaxLvl)
+            if (index + 1 < upgrade.MaxLvl)
             {
                 if (_money.Number >= listOfParameters[index].Price)
                 {
@@ -261,12 +254,12 @@ namespace General
                         new List<string>
                         {
                             listOfParameters[index + 1].Price == 0 ? "Free" : listOfParameters[index + 1].Price.ToString(),
-                            (index + 1).ToString(), (index + 1).ToString() });
+                            (index + 2).ToString(), (index + 1).ToString() });
                     PlayerPrefs.SetFloat(nameValuePlayerPref, listOfParameters[index].Multiplier * upgrade.InitialValue);
-                    PlayerPrefs.SetInt(nameVarLvlPlayerPref, index + 1);
+                    PlayerPrefs.SetInt(nameVarLvlPlayerPref,  index + 1);
                     _money.Number -= listOfParameters[index].Price;
                     _money.SaveInPlayerPref();
-                    _notificationText.text = upgrade.NameInNotification + _contentOfNotificationAboutImproveOfUpgrade;
+                    //_notificationText.text = upgrade.NameInNotification + _contentOfNotificationAboutImproveOfUpgrade;
                     StartCoroutine(UpdateStateOfButton(upgrade, index + 1));
                 }
             }
