@@ -4991,7 +4991,7 @@ MonoBehaviour:
   _enemyHealth: {fileID: 8721665211976319653}
   _rb: {fileID: 3739016294934461530}
   _velocityMovement: 1.5
-  _damage: 25
+  _damage: 0
 --- !u!50 &3739016294934461530
 Rigidbody2D:
   serializedVersion: 4

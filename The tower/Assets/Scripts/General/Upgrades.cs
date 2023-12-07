@@ -192,7 +192,7 @@ namespace General
         public void ImproveSometing(int upgradeIndex, Upgrade upgrade, string nameValuePlayerPref, string nameVarLvlPlayerPref, ref float assignmentVariable)
         {
             if (GetIsImprove(upgradeIndex, upgrade, nameValuePlayerPref, nameVarLvlPlayerPref))
-                assignmentVariable = upgrade.InitialValue * PlayerPrefs.GetFloat(nameValuePlayerPref);
+                assignmentVariable = PlayerPrefs.GetFloat(nameValuePlayerPref);
         }
 
         public void ImproveDamage() => ImproveSometing(PlayerPrefs.GetInt(NamesVariablesPlayerPrefs.DamageUpgradeLevel), _dictOfUpgrades[NamesOfUpgrades.Damage], 
