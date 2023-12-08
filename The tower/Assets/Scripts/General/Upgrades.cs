@@ -40,6 +40,7 @@ namespace General
             [field: SerializeField] public string NameInNotification { get; private set; }
             [field: SerializeField] public TMP_Text TextOfPrice { get; private set; }
             [field: SerializeField] public TMP_Text TextOfLvl { get; private set; }
+            [field: SerializeField] public TMP_Text TextOfValue { get; private set; }
             //[field: SerializeField] public TMP_Text TextOfRequiredLvl { get; private set; }
             [field: SerializeField] public int MaxLvl { get; private set; }
             [field: SerializeField] public Color ColorOnClosed { get; private set; }
@@ -154,13 +155,13 @@ namespace General
                 upgrade.UseButton.image.color = upgrade.ColorOnClosed;
         }
 
-        private void InitializeAndConfigureUpgrade(Upgrade upgrade, string namePlayerPref, string nameVarLvlPlayerPref)
+        private void InitializeAndConfigureUpgrade(Upgrade upgrade, string nameValuePlayerPref, string nameVarLvlPlayerPref)
         {
             var listOfParameters = upgrade.ListOfParameters;
 
-            if (!PlayerPrefs.HasKey(namePlayerPref) || !PlayerPrefs.HasKey(nameVarLvlPlayerPref))
+            if (!PlayerPrefs.HasKey(nameValuePlayerPref) || !PlayerPrefs.HasKey(nameVarLvlPlayerPref))
             {
-                PlayerPrefs.SetFloat(namePlayerPref, upgrade.InitialValue);
+                PlayerPrefs.SetFloat(nameValuePlayerPref, upgrade.InitialValue);
                 PlayerPrefs.SetInt(nameVarLvlPlayerPref, IndexOfFirstLevelOfUpgrades);
             }
 
@@ -173,6 +174,8 @@ namespace General
                     : listOfParameters[index].Price.ToString(),
                 (index + 1).ToString()
             });
+
+            ChangeValueOnValueText(upgrade, nameValuePlayerPref);
 
             StartCoroutine(UpdateStateOfButton(upgrade, PlayerPrefs.GetInt(nameVarLvlPlayerPref)));
         }
@@ -260,6 +263,7 @@ namespace General
                     _money.Number -= listOfParameters[index].Price;
                     _money.SaveInPlayerPref();
                     //_notificationText.text = upgrade.NameInNotification + _contentOfNotificationAboutImproveOfUpgrade;
+                    ChangeValueOnValueText(upgrade, nameValuePlayerPref);
                     StartCoroutine(UpdateStateOfButton(upgrade, index + 1));
                 }
             }
@@ -270,6 +274,11 @@ namespace General
             for (var i = 0; i < listOfTexts.Count; i++)
                 listOfTexts[i].text = listOfContent[i];
         }
-   
+
+        private void ChangeValueOnValueText(Upgrade upgrade, string nameValuePlayerPref)
+        {
+            if (upgrade.TextOfValue)
+                upgrade.TextOfValue.text = PlayerPrefs.GetFloat(nameValuePlayerPref).ToString();
+        }
     }
 }
