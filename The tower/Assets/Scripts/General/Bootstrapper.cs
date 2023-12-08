@@ -1,4 +1,3 @@
-using Currencies;
 using Enemies;
 using Player;
 using UnityEngine;

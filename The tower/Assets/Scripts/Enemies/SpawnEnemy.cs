@@ -37,7 +37,7 @@ namespace Enemies
         [Serializable]
         public class GroupOfEnemies
         {
-            [field: SerializeField] public EnemyHealth Enemy { get; private set; }
+            [field: SerializeField] public Enemy Enemy { get; private set; }
             [field: SerializeField] public float TimeToSpawn { get; private set; } = 1;
             [field: SerializeField] public int Number { get; private set; } = 1;
         }
@@ -146,7 +146,10 @@ namespace Enemies
                                         _radiusOfSpawnArea * Mathf.Deg2Rad * Mathf.Cos(angle),
                                         _radiusOfSpawnArea * Mathf.Deg2Rad * Mathf.Sin(angle)),
                                     group.Enemy.transform.rotation);
-                                currentEnemy.OnDie.AddListener(ReduceNumberEnemies);
+                                
+                                currentEnemy.EnemyHealth.OnDie.AddListener(ReduceNumberEnemies);
+                                RotateEnemy(currentEnemy.transform);
+                                currentEnemy.EndPointOfMovement = _player.transform.position;
 
                                 listOfSectorIndexes.Remove(sectorIndex);
                                 if (listOfSectorIndexes.Count == 0)
@@ -171,6 +174,15 @@ namespace Enemies
                 _currentWave++;
                 StartCoroutine(StartNewWave());
             }
+        }
+
+        public void RotateEnemy(Transform enemy)
+        {
+            var direction = _player.transform.position - enemy.transform.position;
+            var angle = Mathf.Atan2(-direction.y, -direction.x) * Mathf.Rad2Deg;
+            var offSet = 90f;
+            enemy.transform.rotation = Quaternion.Euler(0, 0, angle + offSet);
+
         }
 
         private void ReduceNumberEnemies()

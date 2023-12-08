@@ -7,8 +7,8 @@ namespace Enemies
     [RequireComponent(typeof(Rigidbody2D))]
     public class Enemy : MonoBehaviour
     {
-        [SerializeField] private Vector3 _endPointOfMovement;
-        [SerializeField] private EnemyHealth _enemyHealth;
+        [HideInInspector] public Vector3 EndPointOfMovement { get; set; }
+        [field: SerializeField] public EnemyHealth EnemyHealth { get; private set; }
         [SerializeField] private Rigidbody2D _rb;
         [SerializeField] private float _velocityMovement;
         [SerializeField] private float _damage = 10;
@@ -18,20 +18,20 @@ namespace Enemies
         {
             if (!_rb)
                 _rb = GetComponent<Rigidbody2D>();
-            if (!_enemyHealth)
-                _enemyHealth = GetComponent<EnemyHealth>();
+            if (!EnemyHealth)
+                EnemyHealth = GetComponent<EnemyHealth>();
         }
 
         private void FixedUpdate()
         {
-            if (_enemyHealth.IsDie || !_isMove)
+            if (EnemyHealth.IsDie || !_isMove)
             {
                 if (_rb.velocity.magnitude > 0)
                     _rb.velocity = Vector2.zero;
                 return;
             }
             
-            _rb.velocity = (_endPointOfMovement - transform.position).normalized * _velocityMovement;
+            _rb.velocity = (EndPointOfMovement - transform.position).normalized * _velocityMovement;
         }
         
         private void OnCollisionEnter2D(Collision2D other)

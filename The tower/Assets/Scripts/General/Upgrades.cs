@@ -161,7 +161,6 @@ namespace General
 
             if (!PlayerPrefs.HasKey(nameValuePlayerPref) || !PlayerPrefs.HasKey(nameVarLvlPlayerPref))
             {
-                PlayerPrefs.SetFloat(nameValuePlayerPref, upgrade.InitialValue);
                 PlayerPrefs.SetInt(nameVarLvlPlayerPref, IndexOfFirstLevelOfUpgrades);
             }
 
@@ -174,6 +173,8 @@ namespace General
                     : listOfParameters[index].Price.ToString(),
                 (index + 1).ToString()
             });
+            
+            PlayerPrefs.SetFloat(nameValuePlayerPref, index <= 0 ? upgrade.InitialValue : upgrade.InitialValue * upgrade.ListOfParameters[index - 1].Multiplier);
 
             ChangeValueOnValueText(upgrade, nameValuePlayerPref);
 
@@ -259,7 +260,7 @@ namespace General
                             listOfParameters[index + 1].Price == 0 ? "Free" : listOfParameters[index + 1].Price.ToString(),
                             (index + 2).ToString(), (index + 1).ToString() });
                     PlayerPrefs.SetFloat(nameValuePlayerPref, listOfParameters[index].Multiplier * upgrade.InitialValue);
-                    PlayerPrefs.SetInt(nameVarLvlPlayerPref,  index + 1);
+                    PlayerPrefs.SetInt(nameVarLvlPlayerPref, index + 1);
                     _money.Number -= listOfParameters[index].Price;
                     _money.SaveInPlayerPref();
                     //_notificationText.text = upgrade.NameInNotification + _contentOfNotificationAboutImproveOfUpgrade;

@@ -4989,8 +4989,7 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 64960f2b76ebbdf41b18a422486c048c, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  _endPointOfMovement: {x: 0, y: 1.56, z: 0}
-  _enemyHealth: {fileID: 8721665211976319653}
+  <EnemyHealth>k__BackingField: {fileID: 8721665211976319653}
   _rb: {fileID: 3739016294934461530}
   _velocityMovement: 1.5
   _damage: 0
