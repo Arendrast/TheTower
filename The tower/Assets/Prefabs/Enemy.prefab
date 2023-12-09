@@ -9683,8 +9683,8 @@ GameObject:
   - component: {fileID: 3267248957783228542}
   - component: {fileID: 4925476705307441390}
   - component: {fileID: 3120398571260050361}
-  - component: {fileID: 3739016294934461530}
   - component: {fileID: 8721665211976319653}
+  - component: {fileID: 3739016294934461530}
   m_Layer: 3
   m_Name: Enemy
   m_TagString: Untagged
@@ -9821,34 +9821,7 @@ MonoBehaviour:
   <EnemyHealth>k__BackingField: {fileID: 8721665211976319653}
   _rb: {fileID: 3739016294934461530}
   _velocityMovement: 1.5
-  _damage: 0
---- !u!50 &3739016294934461530
-Rigidbody2D:
-  serializedVersion: 4
-  m_ObjectHideFlags: 0
-  m_CorrespondingSourceObject: {fileID: 0}
-  m_PrefabInstance: {fileID: 0}
-  m_PrefabAsset: {fileID: 0}
-  m_GameObject: {fileID: 7650163352446075073}
-  m_BodyType: 0
-  m_Simulated: 1
-  m_UseFullKinematicContacts: 0
-  m_UseAutoMass: 0
-  m_Mass: 1
-  m_LinearDrag: 0
-  m_AngularDrag: 0.05
-  m_GravityScale: 0
-  m_Material: {fileID: 0}
-  m_IncludeLayers:
-    serializedVersion: 2
-    m_Bits: 0
-  m_ExcludeLayers:
-    serializedVersion: 2
-    m_Bits: 0
-  m_Interpolate: 0
-  m_SleepingMode: 1
-  m_CollisionDetection: 0
-  m_Constraints: 0
+  _damage: 10
 --- !u!114 &8721665211976319653
 MonoBehaviour:
   m_ObjectHideFlags: 0
@@ -9906,6 +9879,34 @@ MonoBehaviour:
   maxHealPoint: 100
   _currentHealthPoint: 0
   _spriteRenderer: {fileID: 3267248957783228542}
+  <RewardForKill>k__BackingField: 10
+--- !u!50 &3739016294934461530
+Rigidbody2D:
+  serializedVersion: 4
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 7650163352446075073}
+  m_BodyType: 0
+  m_Simulated: 1
+  m_UseFullKinematicContacts: 0
+  m_UseAutoMass: 0
+  m_Mass: 1
+  m_LinearDrag: 0
+  m_AngularDrag: 0.05
+  m_GravityScale: 0
+  m_Material: {fileID: 0}
+  m_IncludeLayers:
+    serializedVersion: 2
+    m_Bits: 0
+  m_ExcludeLayers:
+    serializedVersion: 2
+    m_Bits: 0
+  m_Interpolate: 0
+  m_SleepingMode: 1
+  m_CollisionDetection: 0
+  m_Constraints: 0
 --- !u!1001 &2015392060763534236
 PrefabInstance:
   m_ObjectHideFlags: 0

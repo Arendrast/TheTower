@@ -1,10 +1,11 @@
-using System;
+using General;
 using Player;
 using UnityEngine;
 
 namespace Enemies
 {
     [RequireComponent(typeof(Rigidbody2D))]
+    [RequireComponent(typeof(EnemyHealth))]
     public class Enemy : MonoBehaviour
     {
         [HideInInspector] public Vector3 EndPointOfMovement { get; set; }
@@ -31,7 +32,7 @@ namespace Enemies
                 return;
             }
             
-            _rb.velocity = (EndPointOfMovement - transform.position).normalized * _velocityMovement;
+            _rb.velocity = (EndPointOfMovement - transform.position).normalized * (_velocityMovement * PlayerPrefs.GetFloat(NamesVariablesPlayerPrefs.GameSpeed));
         }
         
         private void OnCollisionEnter2D(Collision2D other)

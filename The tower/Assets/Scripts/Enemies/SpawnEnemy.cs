@@ -1,6 +1,7 @@
 using System;
 using System.Collections;
 using System.Collections.Generic;
+using Currencies;
 using General;
 using TMPro;
 using UnityEngine;
@@ -11,25 +12,29 @@ namespace Enemies
 {
     public class SpawnEnemy : MonoBehaviour, IObjectBeindInitialized
     {
-        [SerializeField] private float _radiusOfSpawnArea = 2;
-        [SerializeField] private float _ratioRadiusOfDrawingCircleToReal = 57.5f;
-        [SerializeField] private float _timeBeforeStartNextWave = 0.5f;
-        [SerializeField] private float _timeBeforeStartOneWave = 1f;
+        [Range(0, 1000)] [SerializeField] private float _radiusOfSpawnArea = 2;
+        [Range(0, 100)] [SerializeField] private float _ratioRadiusOfDrawingCircleToReal = 57.5f;
+        [Range(0, 10)] [SerializeField] private float _timeBeforeStartNextWave = 0.5f;
+        [Range(0, 100)] [SerializeField] private float _timeBeforeStartOneWave = 1f;
         [SerializeField] private Transform _player;
+        [SerializeField] private Money _money;
         [SerializeField] private bool _isDrawSpawnZone = true;
-        [SerializeField] private List<Wave> _waveList = new List<Wave>();
 
-        [Space] [Header("Slider")] 
-        [SerializeField] private float _speedMovementSliderWavePerSecond = 0.5f;
+        [Space] [Header("Slider")] [Range(0, 10)] [SerializeField]
+        private float _speedMovementSliderWavePerSecond = 0.5f;
+
         [SerializeField] private Slider _sliderWave;
         [SerializeField] private TMP_Text _textNumberWave;
+
+        [Space] [SerializeField] private List<Wave> _waveList = new List<Wave>();
 
         private bool _isNeedToToTopUpSlider;
         private bool _isPlayerLoose;
         private int _currentWave;
-        private int _numberEnemyOnStage;
         private int _numberEnemyOnWave;
-        private int _currentNumberEnemyOnScene;
+        private int _numberOfRemainingEnemiesOnWave;
+        private int _numberOfRemainingEnemiesOnStage;
+
         private const float FullAngle = 360;
         private IEnumerator _currentSliderFillingCoroutine;
         private float _currentEndValueOfSlider;
@@ -62,15 +67,15 @@ namespace Enemies
             if (Math.Abs(_sliderWave.value - _currentEndValueOfSlider) > Constants.Epsilon)
                 _sliderWave.value = _currentEndValueOfSlider;
             
-            _currentEndValueOfSlider = _numberEnemyOnWave - _currentNumberEnemyOnScene;
+            _currentEndValueOfSlider = _numberEnemyOnWave - _numberOfRemainingEnemiesOnWave;
             _currentSliderFillingCoroutine = FillSlider();
             
             while (Math.Abs(_sliderWave.value - _currentEndValueOfSlider) > Constants.Epsilon)
             {
                 _sliderWave.value = Mathf.MoveTowards(
                     _sliderWave.value,
-                    _numberEnemyOnWave - _currentNumberEnemyOnScene,
-                    _speedMovementSliderWavePerSecond * Time.deltaTime);
+                    _numberEnemyOnWave - _numberOfRemainingEnemiesOnWave,
+                    _speedMovementSliderWavePerSecond * PlayerPrefs.GetFloat(NamesVariablesPlayerPrefs.GameSpeed) * Time.deltaTime);
 
                 yield return null;
             }
@@ -107,24 +112,27 @@ namespace Enemies
                 }
             }
 
+            _numberOfRemainingEnemiesOnWave = _numberEnemyOnWave;
+
             _sliderWave.value = 0;
             _currentEndValueOfSlider = 0;
             StopCoroutine(FillSlider());
             _sliderWave.maxValue = _numberEnemyOnWave;
-        
+
             for (var stageIndex = 0; stageIndex < listOfStages.Count; stageIndex++)
             {
                 var enemyList = listOfStages[stageIndex].EnemyList;
                 var enemyListWithValidEnemyGroup = new List<GroupOfEnemies>();
-            
+
+                _numberOfRemainingEnemiesOnStage = 0;
                 foreach (var enemyGroup in enemyList)
                 {
-                    _numberEnemyOnStage += enemyGroup.Number;   
+                    _numberOfRemainingEnemiesOnStage += enemyGroup.Number;
                     enemyListWithValidEnemyGroup.Add(enemyGroup);
                 }
-
-                if (_numberEnemyOnStage == 0)
-                    break;
+                
+                if (_numberOfRemainingEnemiesOnStage == 0)
+                    continue;
 
                 var time = 0f;
                 const float QuaterCircle = FullAngle / 4;
@@ -141,22 +149,22 @@ namespace Enemies
                                 var sectorIndex = listOfSectorIndexes[Random.Range(0, listOfSectorIndexes.Count)];
 
                                 var angle = Random.Range(sectorIndex == 1 ? 0 : (sectorIndex - 1) * QuaterCircle, sectorIndex * QuaterCircle);
-
+                                
                                 var currentEnemy = Instantiate(group.Enemy, new Vector2(
                                         _radiusOfSpawnArea * Mathf.Deg2Rad * Mathf.Cos(angle),
                                         _radiusOfSpawnArea * Mathf.Deg2Rad * Mathf.Sin(angle)),
                                     group.Enemy.transform.rotation);
-                                
-                                currentEnemy.EnemyHealth.OnDie.AddListener(ReduceNumberEnemies);
+
+                                var enemyHealth = currentEnemy.EnemyHealth;
+                                enemyHealth.OnDie.AddListener(ReduceNumberEnemies);
                                 RotateEnemy(currentEnemy.transform);
                                 currentEnemy.EndPointOfMovement = _player.transform.position;
+                                enemyHealth.OnDie.AddListener(() => _money.Number += enemyHealth.RewardForKill * PlayerPrefs.GetFloat(NamesVariablesPlayerPrefs.NamesOfUpgrades.CashBonus.ToString()));
 
                                 listOfSectorIndexes.Remove(sectorIndex);
                                 if (listOfSectorIndexes.Count == 0)
                                     listOfSectorIndexes = new List<int> {1, 2, 3, 4};
                             }
-
-                            _currentNumberEnemyOnScene += group.Number;
                             enemyListWithValidEnemyGroup.Remove(group);
                         }
                     }
@@ -165,8 +173,10 @@ namespace Enemies
                     yield return null;
                 }
                 
-                yield return new WaitUntil(() => _currentNumberEnemyOnScene == 0);
+                yield return new WaitUntil(() => _numberOfRemainingEnemiesOnStage <= 0);
             }
+
+            _money.Number += PlayerPrefs.GetFloat(NamesVariablesPlayerPrefs.NamesOfUpgrades.CashBonusForWave.ToString());
 
             if (_currentWave + 1 != _waveList.Count)
             {
@@ -187,7 +197,8 @@ namespace Enemies
 
         private void ReduceNumberEnemies()
         {
-            _currentNumberEnemyOnScene--;
+            _numberOfRemainingEnemiesOnWave--;
+            _numberOfRemainingEnemiesOnStage--;
             StartCoroutine(FillSlider());
         } 
         

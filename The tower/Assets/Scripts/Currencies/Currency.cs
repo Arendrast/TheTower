@@ -4,9 +4,9 @@ using UnityEngine;
 
 namespace Currencies
 {
-    public class Currency : MonoBehaviour
+    public abstract class Currency : MonoBehaviour
     {
-        public int SumAll { get; private set; }
+        protected float SumAll { get; set; }
 
         [SerializeField] private TMP_Text _text;
         [SerializeField] private int _numberAfterResetToZero;
@@ -16,20 +16,20 @@ namespace Currencies
         protected string nameVariableInPlayerPref = "UnknownCurrency";
         private string _contentOnSpriteZeroNotNull;
     
-        protected int number;
+        private float _number;
     
-        public int Number
+        public float Number
         {
-            get => number;
+            get => _number;
             set
             {
-                if (number > value)
+                if (_number > value)
                 {
-                    var difference = number - value;
+                    var difference = _number - value;
                     SumAll -= difference;   
                 }
 
-                number = value;
+                _number = value;
                 UpdateContentOnText();
             }
         }
@@ -45,10 +45,10 @@ namespace Currencies
             SumAll = Number;
         }
     
-        public void SaveInPlayerPref() => PlayerPrefs.SetInt(nameVariableInPlayerPref, number);
+        public void SaveInPlayerPref() => PlayerPrefs.SetFloat(nameVariableInPlayerPref, _number);
 
-        private void UpdateContentOnText() => _text.text = _isImageShiftingToLeft ? _contentOnSpriteZeroNotNull + number : 
-            number + _contentOnSpriteZeroNotNull;
+        private void UpdateContentOnText() => _text.text = _isImageShiftingToLeft ? _contentOnSpriteZeroNotNull + _number : 
+            _number + _contentOnSpriteZeroNotNull;
     
         public IEnumerator IncreaseCounter(int additionalCurrency)
         {
@@ -68,7 +68,10 @@ namespace Currencies
                 yield return null;
             }
         }
-    
+
+        public void Increase(int number) => Number += number;
+        
+
         private IEnumerator OffObject(GameObject obj, float timeBeforeOff)
         {
             var offSetTime = 0.5f;

@@ -10,6 +10,7 @@
           <e p="Buttons" t="Include" />
           <e p="Cards" t="Include" />
           <e p="Icons" t="Include" />
+          <e p="Models" t="Include" />
         </e>
         <e p="JMO Assets" t="Include">
           <e p="Cartoon FX (legacy)" t="Include">
@@ -191,8 +192,10 @@
             <e p="UpgradesPanel.cs" t="Include" />
           </e>
           <e p="MyCustomEditor" t="Include">
+            <e p="EnumActionAttribute.cs" t="Include" />
             <e p="ReadOnlyInspectorAttribute.cs" t="Include" />
             <e p="ReadOnlyInspectorDrawer.cs" t="Include" />
+            <e p="UnityEventDrawer.cs" t="Include" />
           </e>
           <e p="Player" t="Include">
             <e p="Ammo.cs" t="Include" />
@@ -236,7 +239,10 @@
             <e p="EmojiOne.json" t="Include" />
           </e>
         </e>
-        <e p="VFX" t="Include" />
+        <e p="VFX" t="Include">
+          <e p="Shaders" t="Include" />
+          <e p="Textures" t="Include" />
+        </e>
       </e>
       <e p="CFXR.WelcomeScreen.csproj" t="IncludeRecursive" />
       <e p="CFXRDemo.csproj" t="IncludeRecursive" />

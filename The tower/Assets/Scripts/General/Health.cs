@@ -4,7 +4,7 @@ using UnityEngine.Events;
 
 namespace General
 {
-    public class Health : MonoBehaviour
+    public abstract class Health : MonoBehaviour
     {
         public float CurrentHealthPoint
         {
