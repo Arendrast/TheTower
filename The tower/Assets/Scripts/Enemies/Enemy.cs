@@ -8,7 +8,7 @@ namespace Enemies
     [RequireComponent(typeof(EnemyHealth))]
     public class Enemy : MonoBehaviour
     {
-        [HideInInspector] public Vector3 EndPointOfMovement { get; set; }
+        public Vector3 EndPointOfMovement { get; set; }
         [field: SerializeField] public EnemyHealth EnemyHealth { get; private set; }
         [SerializeField] private Rigidbody2D _rb;
         [SerializeField] private float _velocityMovement;
@@ -43,5 +43,7 @@ namespace Enemies
                 _isMove = false;
             }
         }
+
+        public void StopMove() => _isMove = false;
     }
 }

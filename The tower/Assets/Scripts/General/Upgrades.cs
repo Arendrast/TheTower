@@ -177,13 +177,15 @@ namespace General
 
         private void ImproveHealth()
         {
-            var ratio = _towerHealth.CurrentHealthPoint / _towerHealth.MaxHealPoint;
+            var ratio = _towerHealth.CurrentHealth / _towerHealth.MaxHealth;
             var upgrade = DictOfUpgrades[NamesVariablesPlayerPrefs.NamesOfUpgrades.Health];
 
             if (GetIsImprove(upgrade))
             {
-                _towerHealth.MaxHealPoint = upgrade.InitialValue * PlayerPrefs.GetFloat(upgrade.NameOfValueVariableInPlayerPrefs);
-                _towerHealth.CurrentHealthPoint = ratio * _towerHealth.MaxHealPoint;
+                _towerHealth.MaxHealth = upgrade.InitialValue * PlayerPrefs.GetFloat(upgrade.NameOfValueVariableInPlayerPrefs);
+                _towerHealth.CurrentHealth = ratio * _towerHealth.MaxHealth;
+                _towerHealth.UpdateText();
+                _towerHealth.UpdateValueOnSlider();
             }
         }
         

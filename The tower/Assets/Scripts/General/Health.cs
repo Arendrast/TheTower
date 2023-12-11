@@ -6,10 +6,10 @@ namespace General
 {
     public abstract class Health : MonoBehaviour
     {
-        public float CurrentHealthPoint
+        public float CurrentHealth
         {
-            get => _currentHealthPoint;
-            set => _currentHealthPoint = value;
+            get => _currentHealth;
+            set => _currentHealth = value;
         }
 
         public UnityEvent OnDie;
@@ -17,15 +17,15 @@ namespace General
        
         public bool IsDie { get; private set; }
 
-        [SerializeField] protected float maxHealPoint = 100;
-        [ReadOnlyInspector] [SerializeField] protected float _currentHealthPoint;
+        [SerializeField] protected float maxHealth = 100;
+        [ReadOnlyInspector] [SerializeField] protected float _currentHealth;
 
         [SerializeField] private SpriteRenderer _spriteRenderer;
 
 
         protected void Start()
         {
-            CurrentHealthPoint = maxHealPoint;
+            CurrentHealth = maxHealth;
             if (!_spriteRenderer)
                 _spriteRenderer = GetComponent<SpriteRenderer>();
         }
@@ -35,20 +35,20 @@ namespace General
             if (IsDie || damage <= 0)
                 return;
             
-            if (CurrentHealthPoint - damage > 0)
+            if (CurrentHealth - damage > 0)
             {
-                CurrentHealthPoint = _currentHealthPoint - damage;
+                CurrentHealth = _currentHealth - damage;
                 OnTakeDamage?.Invoke();
             }
             else
             {
-                _currentHealthPoint = 0;
+                _currentHealth = 0;
                 IsDie = true;
                 OnDie?.Invoke();
             }
         }
 
-        public void RestoreHealth(float recoverySize) => CurrentHealthPoint = CurrentHealthPoint + recoverySize < maxHealPoint ? CurrentHealthPoint + recoverySize : maxHealPoint;
+        public void RestoreHealth(float recoverySize) => CurrentHealth = CurrentHealth + recoverySize < maxHealth ? CurrentHealth + recoverySize : maxHealth;
     
 
         public void Destroy() => Destroy(gameObject);

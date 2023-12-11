@@ -3,8 +3,10 @@ using System.Collections;
 using System.Collections.Generic;
 using Currencies;
 using General;
+using Player;
 using TMPro;
 using UnityEngine;
+using UnityEngine.Events;
 using UnityEngine.UI;
 using Random = UnityEngine.Random;
 
@@ -16,7 +18,8 @@ namespace Enemies
         [Range(0, 100)] [SerializeField] private float _ratioRadiusOfDrawingCircleToReal = 57.5f;
         [Range(0, 10)] [SerializeField] private float _timeBeforeStartNextWave = 0.5f;
         [Range(0, 100)] [SerializeField] private float _timeBeforeStartOneWave = 1f;
-        [SerializeField] private Transform _player;
+        private Transform Player => _towerHealth.transform;
+        [SerializeField] private TowerHealth _towerHealth;
         [SerializeField] private Money _money;
         [SerializeField] private bool _isDrawSpawnZone = true;
 
@@ -85,6 +88,7 @@ namespace Enemies
         {
             StartCoroutine(StartNewWave(_timeBeforeStartOneWave));
             _textNumberWave.text = $"1/{_waveList.Count}";
+            _towerHealth.OnDie.AddListener(StopAllCoroutines);
             _sliderWave.value = 0;
         }
 
@@ -158,8 +162,9 @@ namespace Enemies
                                 var enemyHealth = currentEnemy.EnemyHealth;
                                 enemyHealth.OnDie.AddListener(ReduceNumberEnemies);
                                 RotateEnemy(currentEnemy.transform);
-                                currentEnemy.EndPointOfMovement = _player.transform.position;
+                                currentEnemy.EndPointOfMovement = Player.transform.position;
                                 enemyHealth.OnDie.AddListener(() => _money.Number += enemyHealth.RewardForKill * PlayerPrefs.GetFloat(NamesVariablesPlayerPrefs.NamesOfUpgrades.CashBonus.ToString()));
+                                _towerHealth.OnDie.AddListener(() => { if (currentEnemy) currentEnemy.StopMove(); });
 
                                 listOfSectorIndexes.Remove(sectorIndex);
                                 if (listOfSectorIndexes.Count == 0)
@@ -169,7 +174,7 @@ namespace Enemies
                         }
                     }
 
-                    time += Time.deltaTime;
+                    time += Time.deltaTime * PlayerPrefs.GetFloat(NamesVariablesPlayerPrefs.GameSpeed);
                     yield return null;
                 }
                 
@@ -178,7 +183,7 @@ namespace Enemies
 
             _money.Number += PlayerPrefs.GetFloat(NamesVariablesPlayerPrefs.NamesOfUpgrades.CashBonusForWave.ToString());
 
-            if (_currentWave + 1 != _waveList.Count)
+            if (_currentWave + 1 != _waveList.Count && Player)
             {
                 yield return new WaitForSeconds(_timeBeforeStartNextWave);
                 _currentWave++;
@@ -188,7 +193,7 @@ namespace Enemies
 
         public void RotateEnemy(Transform enemy)
         {
-            var direction = _player.transform.position - enemy.transform.position;
+            var direction = Player.transform.position - enemy.transform.position;
             var angle = Mathf.Atan2(-direction.y, -direction.x) * Mathf.Rad2Deg;
             var offSet = 90f;
             enemy.transform.rotation = Quaternion.Euler(0, 0, angle + offSet);
@@ -208,7 +213,7 @@ namespace Enemies
             if (_isDrawSpawnZone)
             {
                 Gizmos.color = Color.yellow;
-                Gizmos.DrawWireSphere(_player.position, _radiusOfSpawnArea / _ratioRadiusOfDrawingCircleToReal);
+                Gizmos.DrawWireSphere(Player.position, _radiusOfSpawnArea / _ratioRadiusOfDrawingCircleToReal);
             }
         }
     }
