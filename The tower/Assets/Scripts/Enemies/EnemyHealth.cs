@@ -1,3 +1,4 @@
+using Currencies;
 using General;
 using Player;
 using UnityEngine;
@@ -6,6 +7,7 @@ namespace Enemies
 {
     public class EnemyHealth : Health
     {
+        [field: SerializeField] public float RewardForKill { get; private set; }
         private new void Start()
         {
             base.Start();

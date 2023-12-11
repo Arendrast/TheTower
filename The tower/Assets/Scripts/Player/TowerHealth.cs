@@ -13,7 +13,7 @@ namespace Player
             get => maxHealPoint;
             set
             {
-                _hpSlider.maxValue = value;
+                _healthSlider.maxValue = value;
                 maxHealPoint = value;
             }
         }
@@ -21,16 +21,16 @@ namespace Player
         [Space]
         public float UnitOfHealthRegeneration;
 
-        [SerializeField] private TMP_Text _text;
-        [SerializeField] private Slider _hpSlider;
+        [SerializeField] private TMP_Text _healthCounter;
+        [SerializeField] private Slider _healthSlider;
         [SerializeField] private float _regenerationFrequencyInSec = 1;
 
         public void Initialize()
         {
             Start();
             StartCoroutine(Regenerate());
-            _hpSlider.maxValue = MaxHealPoint;
-            _hpSlider.value = MaxHealPoint;
+            _healthSlider.maxValue = MaxHealPoint;
+            _healthSlider.value = MaxHealPoint;
             UpdateText();
         }
 
@@ -42,8 +42,8 @@ namespace Player
             StartCoroutine(Regenerate());
         }
         
-        public void UpdateValueOnSlider() => _hpSlider.value = CurrentHealthPoint;
+        public void UpdateValueOnSlider() => _healthSlider.value = CurrentHealthPoint;
 
-        public void UpdateText() => _text.text = $"{CurrentHealthPoint}/{maxHealPoint}";
+        public void UpdateText() => _healthCounter.text = $"{CurrentHealthPoint}/{maxHealPoint}";
     }
 }

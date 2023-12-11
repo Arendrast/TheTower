@@ -14,6 +14,8 @@ namespace General
 {
     public class Upgrades : MonoBehaviour, IObjectBeindInitialized
     {
+        public Dictionary<NamesVariablesPlayerPrefs.NamesOfUpgrades, Upgrade> DictOfUpgrades { get; private set; } = new Dictionary<NamesVariablesPlayerPrefs.NamesOfUpgrades, Upgrade>();
+        
         [SerializeField] private List<Upgrade> _listOfUpgrades;
     
         [SerializeField] private Money _money;
@@ -23,7 +25,7 @@ namespace General
         [SerializeField] private string _contentOfNotificationAboutImproveOfUpgrade = " upgraded";
         [SerializeField] private Tower _tower;
         [SerializeField] private TowerHealth _towerHealth;
-    
+
         private TMP_Text _errorText, _notificationText;
 
         private Sprite _defaultSpriteOfImageOfUpgradeInitialLevelCat;
@@ -34,15 +36,17 @@ namespace General
 
         [Serializable]
         public class Upgrade
-        {   
-            [HideInInspector] public string Name;
-            [ReadOnlyInspector] [SerializeField] private string _nameInInspector;
+        {
+            [ReadOnlyInspector] public NamesVariablesPlayerPrefs.NamesOfUpgrades Name;
+            public string NameOfValueVariableInPlayerPrefs => Name.ToString();
+            public string NameOfLevelVariableInPlayerPrefs => Name + NamesVariablesPlayerPrefs.PostScriptUpgradeLevel;
+            public int MaxLvl => ListOfParameters.Count;
+            
             [field: SerializeField] public string NameInNotification { get; private set; }
             [field: SerializeField] public TMP_Text TextOfPrice { get; private set; }
             [field: SerializeField] public TMP_Text TextOfLvl { get; private set; }
             [field: SerializeField] public TMP_Text TextOfValue { get; private set; }
             //[field: SerializeField] public TMP_Text TextOfRequiredLvl { get; private set; }
-            [field: SerializeField] public int MaxLvl { get; private set; }
             [field: SerializeField] public Color ColorOnClosed { get; private set; }
             [field: SerializeField] public Color ColorOnOpened { get; private set; }
             [field: SerializeField] public Sprite SpriteOnClosed { get; private set; }
@@ -50,10 +54,11 @@ namespace General
             [field: SerializeField] public Button UseButton { get; private set; }
             [field: SerializeField] public float InitialValue { get; private set; }
             [field: SerializeField] public List<FieldUpgrade> ListOfParameters { get; private set; }
+
+            public Action<float> OnChangeValue;
             //[field: SerializeField] public List<FieldUpgrade> ListOfParametersOfSecondParameter { get; private set; }
         }
-
-        private readonly Dictionary<NamesOfUpgrades, Upgrade> _dictOfUpgrades = new Dictionary<NamesOfUpgrades, Upgrade>();
+        
         private const int IndexOfElementOfFirstUpgrade = 0;
 
         [Serializable]
@@ -64,59 +69,61 @@ namespace General
             [field: SerializeField] public int RequiredLevel { get; private set; }
         }
 
-
-        public enum NamesOfUpgrades
+        private void OnValidate()
         {
-            Damage,
-            AttackSpeed,
-            CriticalDamageChance,
-            CriticalFactor,
-            Radius,
-            DamageOnMeter,
-            Health,
-            HealthRegeneration
+            var listOfNamesOfUpgrades = Enum.GetValues(typeof(NamesVariablesPlayerPrefs.NamesOfUpgrades)).Cast<NamesVariablesPlayerPrefs.NamesOfUpgrades>().ToList();
+            for (var i = 0; i < _listOfUpgrades.Count; i++)
+                _listOfUpgrades[i].Name = listOfNamesOfUpgrades[i];
         }
 
         public void Initialize()
         {
-            var listOfNamesOfUpgrades = Enum.GetValues(typeof(NamesOfUpgrades)).Cast<NamesOfUpgrades>().ToList();
-            for (var i = 0; i < listOfNamesOfUpgrades.Count; i++)
+            if (!PlayerPrefs.HasKey(NamesVariablesPlayerPrefs.MaxOpenLvl))
+                PlayerPrefs.SetInt(NamesVariablesPlayerPrefs.MaxOpenLvl, 1);
+
+            _maxOpenLevel = PlayerPrefs.GetInt(NamesVariablesPlayerPrefs.MaxOpenLvl);
+            _currentLvl = SceneManager.GetActiveScene().buildIndex;
+            
+            var listOfNamesOfUpgrades = Enum.GetValues(typeof(NamesVariablesPlayerPrefs.NamesOfUpgrades)).Cast<NamesVariablesPlayerPrefs.NamesOfUpgrades>().ToList();
+            for (var i = 0; i < _listOfUpgrades.Count; i++)
             {
-                _listOfUpgrades[i].Name = listOfNamesOfUpgrades[i].ToString();
-                _dictOfUpgrades.Add(listOfNamesOfUpgrades[i], _listOfUpgrades[i]);
+                DictOfUpgrades.Add(listOfNamesOfUpgrades[i], _listOfUpgrades[i]);
+                InitializeAndConfigureUpgrade(_listOfUpgrades[i]);
+                _listOfUpgrades[i].UseButton.image.sprite = _listOfUpgrades[i].DefaultSprite;
             }
-        
+
             if (!_money)
                 _money = FindObjectOfType<Money>();
             if (!_tower)
                 _tower = FindObjectOfType<Tower>();
         
             //_errorText.gameObject.SetActive(true);
-
-            foreach (var upgrade in _dictOfUpgrades.Values)
-            {
-                //upgrade.TextOfRequiredLvl.gameObject.SetActive(false);
-                upgrade.UseButton.image.sprite = upgrade.DefaultSprite;
-            }
-
-            InitializeUpgrades();
         }
-
-        private void InitializeUpgrades()
+        
+        private void InitializeAndConfigureUpgrade(Upgrade upgrade)
         {
-            if (!PlayerPrefs.HasKey(NamesVariablesPlayerPrefs.MaxOpenLvl))
-                PlayerPrefs.SetInt(NamesVariablesPlayerPrefs.MaxOpenLvl, 1);
-        
-            _maxOpenLevel = PlayerPrefs.GetInt(NamesVariablesPlayerPrefs.MaxOpenLvl);
-            _currentLvl = SceneManager.GetActiveScene().buildIndex;
-        
-            InitializeAndConfigureUpgrade(_dictOfUpgrades[NamesOfUpgrades.Damage], NamesVariablesPlayerPrefs.Damage, NamesVariablesPlayerPrefs.DamageUpgradeLevel);
-            InitializeAndConfigureUpgrade(_dictOfUpgrades[NamesOfUpgrades.AttackSpeed], NamesVariablesPlayerPrefs.AttackSpeed, NamesVariablesPlayerPrefs.AttackSpeedUpgradeLevel);
-            InitializeAndConfigureUpgrade(_dictOfUpgrades[NamesOfUpgrades.CriticalDamageChance], NamesVariablesPlayerPrefs.CriticalChance, NamesVariablesPlayerPrefs.CriticalChanceUpgradeLevel);
-            InitializeAndConfigureUpgrade(_dictOfUpgrades[NamesOfUpgrades.CriticalFactor], NamesVariablesPlayerPrefs.CriticalFactor, NamesVariablesPlayerPrefs.CriticalFactorUpgradeLevel);
-            InitializeAndConfigureUpgrade(_dictOfUpgrades[NamesOfUpgrades.Radius], NamesVariablesPlayerPrefs.Radius, NamesVariablesPlayerPrefs.RadiusUpgradeLevel);
-            InitializeAndConfigureUpgrade(_dictOfUpgrades[NamesOfUpgrades.Health], NamesVariablesPlayerPrefs.Health, NamesVariablesPlayerPrefs.HealthUpgradeLevel);
-            InitializeAndConfigureUpgrade(_dictOfUpgrades[NamesOfUpgrades.HealthRegeneration], NamesVariablesPlayerPrefs.HealthRegeneration, NamesVariablesPlayerPrefs.HealthRegenerationUpgradeLevel);
+            var listOfParameters = upgrade.ListOfParameters;
+            var nameOfLevelVariableInPlayerPrefs = upgrade.NameOfLevelVariableInPlayerPrefs;
+            var nameOfValueVariableInPlayerPrefs = upgrade.NameOfValueVariableInPlayerPrefs;
+
+            if (!PlayerPrefs.HasKey(nameOfLevelVariableInPlayerPrefs))
+                PlayerPrefs.SetInt(nameOfLevelVariableInPlayerPrefs, IndexOfFirstLevelOfUpgrades);
+            
+            var index = PlayerPrefs.GetInt(nameOfLevelVariableInPlayerPrefs);
+
+            SetTexts(new List<TMP_Text> {upgrade.TextOfPrice, upgrade.TextOfLvl}, new List<string>
+            {
+                listOfParameters[index].Price == 0
+                    ? "Free"
+                    : listOfParameters[index].Price.ToString(),
+                (index + 1).ToString()
+            });
+            
+            PlayerPrefs.SetFloat(nameOfValueVariableInPlayerPrefs, index <= 0 ? upgrade.InitialValue : upgrade.InitialValue * upgrade.ListOfParameters[index - 1].Multiplier);
+
+            ChangeValueOnValueText(upgrade);
+
+            StartCoroutine(UpdateStateOfButton(upgrade, PlayerPrefs.GetInt(nameOfLevelVariableInPlayerPrefs)));
         }
     
         private IEnumerator UpdateStateOfButton(Upgrade upgrade, int indexLevel)
@@ -155,94 +162,48 @@ namespace General
                 upgrade.UseButton.image.color = upgrade.ColorOnClosed;
         }
 
-        private void InitializeAndConfigureUpgrade(Upgrade upgrade, string nameValuePlayerPref, string nameVarLvlPlayerPref)
+
+        public bool GetIsImprove(Upgrade upgrade)
         {
-            var listOfParameters = upgrade.ListOfParameters;
-
-            if (!PlayerPrefs.HasKey(nameValuePlayerPref) || !PlayerPrefs.HasKey(nameVarLvlPlayerPref))
-            {
-                PlayerPrefs.SetFloat(nameValuePlayerPref, upgrade.InitialValue);
-                PlayerPrefs.SetInt(nameVarLvlPlayerPref, IndexOfFirstLevelOfUpgrades);
-            }
-
-            var index = PlayerPrefs.GetInt(nameVarLvlPlayerPref);
-
-            SetTexts(new List<TMP_Text> {upgrade.TextOfPrice, upgrade.TextOfLvl}, new List<string>
-            {
-                listOfParameters[index].Price == 0
-                    ? "Free"
-                    : listOfParameters[index].Price.ToString(),
-                (index + 1).ToString()
-            });
-
-            ChangeValueOnValueText(upgrade, nameValuePlayerPref);
-
-            StartCoroutine(UpdateStateOfButton(upgrade, PlayerPrefs.GetInt(nameVarLvlPlayerPref)));
-        }
-   
-
-        public bool GetIsImprove(int upgradeIndex, Upgrade upgrade, string nameValuePlayerPref, string nameVarLvlPlayerPref)
-        {
+            var upgradeIndex = PlayerPrefs.GetInt(upgrade.NameOfLevelVariableInPlayerPrefs);
             if (_money.Number >= upgrade.ListOfParameters[upgradeIndex].Price)
             {
-                Improve(upgrade, nameValuePlayerPref, nameVarLvlPlayerPref);
-                return PlayerPrefs.GetInt(nameVarLvlPlayerPref) > upgradeIndex;
+                Improve(upgrade);
+                return PlayerPrefs.GetInt(upgrade.NameOfLevelVariableInPlayerPrefs) > upgradeIndex;
             }
 
             return false;
         }
 
-        public void ImproveSometing(int upgradeIndex, Upgrade upgrade, string nameValuePlayerPref, string nameVarLvlPlayerPref, ref float assignmentVariable)
-        {
-            if (GetIsImprove(upgradeIndex, upgrade, nameValuePlayerPref, nameVarLvlPlayerPref))
-                assignmentVariable = PlayerPrefs.GetFloat(nameValuePlayerPref);
-        }
-
-        public void ImproveDamage() => ImproveSometing(PlayerPrefs.GetInt(NamesVariablesPlayerPrefs.DamageUpgradeLevel), _dictOfUpgrades[NamesOfUpgrades.Damage], 
-            NamesVariablesPlayerPrefs.Damage, NamesVariablesPlayerPrefs.DamageUpgradeLevel, ref _tower.Damage);
-
-        public void ImproveAttackSpeed() => ImproveSometing(PlayerPrefs.GetInt(NamesVariablesPlayerPrefs.AttackSpeedUpgradeLevel),
-            _dictOfUpgrades[NamesOfUpgrades.AttackSpeed], NamesVariablesPlayerPrefs.AttackSpeed, 
-            NamesVariablesPlayerPrefs.AttackSpeedUpgradeLevel, ref _tower.AttackSpeed);
-   
-        public void ImproveCriticalChance() => ImproveSometing(PlayerPrefs.GetInt(NamesVariablesPlayerPrefs.CriticalChanceUpgradeLevel),
-            _dictOfUpgrades[NamesOfUpgrades.CriticalDamageChance], NamesVariablesPlayerPrefs.CriticalChance,
-            NamesVariablesPlayerPrefs.CriticalChanceUpgradeLevel, ref _tower.CriticalDamageChance);
-   
-        public void ImproveCriticalFactor() => ImproveSometing(PlayerPrefs.GetInt(NamesVariablesPlayerPrefs.CriticalFactorUpgradeLevel),
-            _dictOfUpgrades[NamesOfUpgrades.CriticalFactor], NamesVariablesPlayerPrefs.CriticalFactor,
-            NamesVariablesPlayerPrefs.CriticalFactorUpgradeLevel, ref _tower.CriticalFactor);
-   
-        public void ImproveCriticalRadius() => ImproveSometing(PlayerPrefs.GetInt(NamesVariablesPlayerPrefs.RadiusUpgradeLevel),
-            _dictOfUpgrades[NamesOfUpgrades.Radius], NamesVariablesPlayerPrefs.Radius,
-            NamesVariablesPlayerPrefs.RadiusUpgradeLevel, ref _tower.Radius);
-   
-        public void ImproveCriticalDamageOnMeter() => ImproveSometing(PlayerPrefs.GetInt(NamesVariablesPlayerPrefs.DamageOnMeterUpgradeLevel),
-            _dictOfUpgrades[NamesOfUpgrades.DamageOnMeter], NamesVariablesPlayerPrefs.DamageOnMeter,
-            NamesVariablesPlayerPrefs.DamageOnMeterUpgradeLevel, ref _tower.DamageOnMeter);
-
-        public void ImproveHealth()
+        private void ImproveHealth()
         {
             var ratio = _towerHealth.CurrentHealthPoint / _towerHealth.MaxHealPoint;
-            var upgrade = _dictOfUpgrades[NamesOfUpgrades.Health];
-            var upgradeIndex = PlayerPrefs.GetInt(NamesVariablesPlayerPrefs.HealthUpgradeLevel);
-            var nameValuePlayerPref = NamesVariablesPlayerPrefs.Health;
-            var nameVarLvlPlayerPref = NamesVariablesPlayerPrefs.HealthUpgradeLevel;
-            
-            if (GetIsImprove(upgradeIndex, upgrade, nameValuePlayerPref, nameVarLvlPlayerPref))
+            var upgrade = DictOfUpgrades[NamesVariablesPlayerPrefs.NamesOfUpgrades.Health];
+
+            if (GetIsImprove(upgrade))
             {
-                _towerHealth.MaxHealPoint = upgrade.InitialValue * PlayerPrefs.GetFloat(nameValuePlayerPref);
+                _towerHealth.MaxHealPoint = upgrade.InitialValue * PlayerPrefs.GetFloat(upgrade.NameOfValueVariableInPlayerPrefs);
                 _towerHealth.CurrentHealthPoint = ratio * _towerHealth.MaxHealPoint;
             }
-        } 
-   
-        public void ImproveHealthRegeneration() => ImproveSometing(PlayerPrefs.GetInt(NamesVariablesPlayerPrefs.HealthRegenerationUpgradeLevel),
-            _dictOfUpgrades[NamesOfUpgrades.HealthRegeneration], NamesVariablesPlayerPrefs.HealthRegeneration,
-            NamesVariablesPlayerPrefs.HealthRegenerationUpgradeLevel, ref _towerHealth.UnitOfHealthRegeneration);
-
-        private void Improve(Upgrade upgrade, string nameValuePlayerPref, string nameVarLvlPlayerPref, bool isUseTwoListParameters = false)
+        }
+        
+        
+        [EnumAction(typeof(NamesVariablesPlayerPrefs.NamesOfUpgrades))]
+        public void Improve(int upgradeEnum)
         {
-            var index = PlayerPrefs.GetInt(nameVarLvlPlayerPref);
+            var upgrade = DictOfUpgrades[(NamesVariablesPlayerPrefs.NamesOfUpgrades) upgradeEnum];
+            
+            if (upgrade == DictOfUpgrades[NamesVariablesPlayerPrefs.NamesOfUpgrades.Health])
+                ImproveHealth();
+            else
+                Improve(upgrade);
+        }
+        
+        private void Improve(Upgrade upgrade)
+        {
+            var nameOfLevelVariableInPlayerPrefs = upgrade.NameOfLevelVariableInPlayerPrefs;
+            var nameOfValueVariableInPlayerPrefs = upgrade.NameOfValueVariableInPlayerPrefs;
+            var index = PlayerPrefs.GetInt(nameOfLevelVariableInPlayerPrefs);
 
             var listOfParameters = upgrade.ListOfParameters;
 
@@ -258,13 +219,15 @@ namespace General
                         {
                             listOfParameters[index + 1].Price == 0 ? "Free" : listOfParameters[index + 1].Price.ToString(),
                             (index + 2).ToString(), (index + 1).ToString() });
-                    PlayerPrefs.SetFloat(nameValuePlayerPref, listOfParameters[index].Multiplier * upgrade.InitialValue);
-                    PlayerPrefs.SetInt(nameVarLvlPlayerPref,  index + 1);
+                    var value = listOfParameters[index].Multiplier * upgrade.InitialValue;
+                    PlayerPrefs.SetFloat(nameOfValueVariableInPlayerPrefs, value);
+                    PlayerPrefs.SetInt(nameOfLevelVariableInPlayerPrefs, index + 1);
                     _money.Number -= listOfParameters[index].Price;
                     _money.SaveInPlayerPref();
                     //_notificationText.text = upgrade.NameInNotification + _contentOfNotificationAboutImproveOfUpgrade;
-                    ChangeValueOnValueText(upgrade, nameValuePlayerPref);
+                    ChangeValueOnValueText(upgrade);
                     StartCoroutine(UpdateStateOfButton(upgrade, index + 1));
+                    upgrade.OnChangeValue?.Invoke(value);
                 }
             }
         }
@@ -275,10 +238,10 @@ namespace General
                 listOfTexts[i].text = listOfContent[i];
         }
 
-        private void ChangeValueOnValueText(Upgrade upgrade, string nameValuePlayerPref)
+        private void ChangeValueOnValueText(Upgrade upgrade)
         {
             if (upgrade.TextOfValue)
-                upgrade.TextOfValue.text = PlayerPrefs.GetFloat(nameValuePlayerPref).ToString();
+                upgrade.TextOfValue.text = PlayerPrefs.GetFloat(upgrade.NameOfValueVariableInPlayerPrefs).ToString();
         }
     }
 }
