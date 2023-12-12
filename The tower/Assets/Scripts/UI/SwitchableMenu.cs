@@ -23,7 +23,8 @@ namespace UI
             if (_isOffOnStart)
             {
                 gameObject.SetActive(false);
-                transform.localScale = Vector3.zero;
+                _window.transform.localScale = Vector3.zero;
+                _background.transform.localScale = Vector3.zero;
             }
         }
 
@@ -44,8 +45,8 @@ namespace UI
             }
             else
             {
-                SetScale(_background.transform).OnComplete(() =>
-                    SetScale(_window.transform));
+                SetScale(_window.transform).OnComplete(() =>
+                    SetScale(_background.transform));
             }
         }
 

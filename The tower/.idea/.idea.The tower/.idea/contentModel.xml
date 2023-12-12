@@ -181,6 +181,7 @@
           </e>
         </e>
         <e p="Materials" t="Include" />
+        <e p="Mixers" t="Include" />
         <e p="Music" t="Include" />
         <e p="Prefabs" t="Include">
           <e p="UI" t="Include" />
