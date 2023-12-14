@@ -39,7 +39,7 @@ namespace Enemies
         {
             if (other.gameObject.TryGetComponent<TowerHealth>(out var health))
             {
-                health.TakeDamage(_damage);
+                health.TakeDamage(_damage, transform.name);
                 _isMove = false;
             }
         }

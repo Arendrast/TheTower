@@ -10080,7 +10080,7 @@ MonoBehaviour:
   m_EditorClassIdentifier: 
   <EnemyHealth>k__BackingField: {fileID: 8721665211976319653}
   _rb: {fileID: 3739016294934461530}
-  _velocityMovement: 0.2
+  _velocityMovement: 0.4
   _damage: 30
 --- !u!50 &3739016294934461530
 Rigidbody2D:

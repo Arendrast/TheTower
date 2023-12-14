@@ -5,7 +5,7 @@ using UnityEngine;
 
 namespace UI
 {
-    public class Settings : SwitchableMenu
+    public class Settings : Switchable
     {
         public override void SetState()
         {

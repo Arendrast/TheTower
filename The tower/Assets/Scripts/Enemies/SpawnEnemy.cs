@@ -14,10 +14,12 @@ namespace Enemies
 {
     public class SpawnEnemy : MonoBehaviour, IObjectBeindInitialized
     {
+        public int CurrentWave { get; private set; }
         [Range(0, 1000)] [SerializeField] private float _radiusOfSpawnArea = 2;
         [Range(0, 100)] [SerializeField] private float _ratioRadiusOfDrawingCircleToReal = 57.5f;
         [Range(0, 10)] [SerializeField] private float _timeBeforeStartNextWave = 0.5f;
         [Range(0, 100)] [SerializeField] private float _timeBeforeStartOneWave = 1f;
+        [SerializeField] private UnityEvent _onWin;
         private Transform Player => _towerHealth.transform;
         [SerializeField] private TowerHealth _towerHealth;
         [SerializeField] private Money _money;
@@ -33,7 +35,6 @@ namespace Enemies
 
         private bool _isNeedToToTopUpSlider;
         private bool _isPlayerLoose;
-        private int _currentWave;
         private int _numberEnemyOnWave;
         private int _numberOfRemainingEnemiesOnWave;
         private int _numberOfRemainingEnemiesOnStage;
@@ -96,8 +97,8 @@ namespace Enemies
         {
             yield return new WaitForSeconds(timeToStart);
         
-            var listOfStages = _waveList[_currentWave].ListOfStages;
-            _textNumberWave.text = $"{_currentWave + 1}/{_waveList.Count}";
+            var listOfStages = _waveList[CurrentWave].ListOfStages;
+            _textNumberWave.text = $"{CurrentWave + 1}/{_waveList.Count}";
 
             _numberEnemyOnWave = 0;
             foreach (var stage in listOfStages)
@@ -183,12 +184,14 @@ namespace Enemies
 
             _money.Number += PlayerPrefs.GetFloat(NamesVariablesPlayerPrefs.NamesOfUpgrades.CashBonusForWave.ToString());
 
-            if (_currentWave + 1 != _waveList.Count && Player)
+            if (CurrentWave + 1 != _waveList.Count && !_towerHealth.IsDie)
             {
                 yield return new WaitForSeconds(_timeBeforeStartNextWave);
-                _currentWave++;
+                CurrentWave++;
                 StartCoroutine(StartNewWave());
             }
+            else
+                _onWin?.Invoke();
         }
 
         public void RotateEnemy(Transform enemy)

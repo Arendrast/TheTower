@@ -7,7 +7,7 @@ using UnityEngine.Events;
 
 namespace General
 {
-    public class Bootstrapper : MonoBehaviour
+    public class GameBootstrapper : MonoBehaviour
     {
         [Space] [Header("Music")]
         [SerializeField] private List<AudioSource> _audioSourceList = new List<AudioSource>();
@@ -20,9 +20,9 @@ namespace General
         [SerializeField] private TowerHealth _towerHealth;
         [SerializeField] private Tower _tower;
         [SerializeField] private SceneLoader _sceneLoader;
-        [SerializeField] private UnityEvent _onAwake;
-        [SerializeField] private List<SwitchableMenu> _switchableMenuList;
+        [SerializeField] private List<Switchable> _switchableMenuList;
         [SerializeField] private List<VolumeСontrol> _volumeControlList;
+        [SerializeField] private UnityEvent _onAwake;
         private void Awake()
         {
             _upgrades.Initialize();

@@ -10,6 +10,7 @@ namespace Player
 {
     public class TowerHealth : Health, IObjectBeindInitialized
     {
+        public string NameLastDamager { get; private set; }
         public float MaxHealth 
         {
             get => maxHealth;
@@ -46,7 +47,18 @@ namespace Player
         }
 
         private void OnDisable() => SetSubscribeToMethods(true);
-        
+
+        public void TakeDamage(float damage, string damagerName)
+        {
+            if (base.TakeDamage(damage))
+                NameLastDamager = damagerName;
+        }
+
+        public override bool TakeDamage(float damage)
+        {
+            Debug.LogError("Вызов перегрузки этого метода не возможен. Используйте другую перегрузку.");
+            return false;
+        }
 
         private void SetSubscribeToMethods(bool isSubscribe)
         {

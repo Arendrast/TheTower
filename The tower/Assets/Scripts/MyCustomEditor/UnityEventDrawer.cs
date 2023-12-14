@@ -470,7 +470,7 @@ namespace MyCustomEditor
                     stringBuilder.Append(", ");
             }
 
-            var on = objectReferenceValue == method.Target && stringValue == method.MethodInfo.Name && mode1 == mode2;
+            var on = (object) objectReferenceValue == method.Target && stringValue == method.MethodInfo.Name && mode1 == mode2;
             if (on && mode1 == PersistentListenerMode.Object && method.MethodInfo.GetParameters().Length == 1)
                 on &= method.MethodInfo.GetParameters()[0].ParameterType.AssemblyQualifiedName ==
                       propertyRelative.stringValue;

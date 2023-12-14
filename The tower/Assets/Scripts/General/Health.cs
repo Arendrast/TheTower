@@ -30,15 +30,16 @@ namespace General
                 _spriteRenderer = GetComponent<SpriteRenderer>();
         }
 
-        public void TakeDamage(float damage)
+        public virtual bool TakeDamage(float damage)
         {
             if (IsDie || damage <= 0)
-                return;
+                return false;
             
             if (CurrentHealth - damage > 0)
             {
                 CurrentHealth = _currentHealth - damage;
                 OnTakeDamage?.Invoke();
+                return true;
             }
             else
             {
@@ -46,6 +47,8 @@ namespace General
                 IsDie = true;
                 OnDie?.Invoke();
             }
+
+            return false;
         }
 
         public void RestoreHealth(float recoverySize) => CurrentHealth = CurrentHealth + recoverySize < maxHealth ? CurrentHealth + recoverySize : maxHealth;
