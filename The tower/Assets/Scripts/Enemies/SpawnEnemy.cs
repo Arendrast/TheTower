@@ -12,7 +12,7 @@ using Random = UnityEngine.Random;
 
 namespace Enemies
 {
-    public class SpawnEnemy : MonoBehaviour, IObjectBeindInitialized
+    public class SpawnEnemy : MonoBehaviour
     {
         public int CurrentWave { get; private set; }
         [Range(0, 1000)] [SerializeField] private float _radiusOfSpawnArea = 2;
@@ -85,7 +85,7 @@ namespace Enemies
             }
         }
 
-        public void Initialize()
+        public void Start()
         {
             StartCoroutine(StartNewWave(_timeBeforeStartOneWave));
             _textNumberWave.text = $"1/{_waveList.Count}";

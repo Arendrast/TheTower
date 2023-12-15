@@ -6,7 +6,7 @@ using UnityEngine.UI;
 
 namespace UI
 {
-    public class VolumeСontrol : MonoBehaviour, IObjectBeindInitialized
+    public class VolumeСontrol : MonoBehaviour
     {
         [SerializeField] private AudioMixer _mixer;
         [SerializeField] private Slider _slider;
@@ -19,7 +19,7 @@ namespace UI
         private float _volume = 1;
         private bool _isOn = true;
 
-        public void Initialize()
+        public void Start()
         {
             if (!PlayerPrefs.HasKey(_nameVarSliderPlayerPrefs))
                 SaveValueSliderInPlayerPref();   

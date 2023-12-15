@@ -1,4 +1,4 @@
-﻿using System.Collections.Generic;
+﻿﻿using System.Collections.Generic;
 using System.Linq;
 using General;
 using MyCustomEditor;
@@ -26,7 +26,6 @@ namespace InventorySystem
         
         [field: SerializeField] public bool IsActive { get; private set;  }
         
-        public string ItemName => IsEmpty ? "Empty" : Item.Name;
         public bool IsEmpty => Item == null;
         public Vector3 DefaultLocalPositionOfItemImage { get; private set; }
         
@@ -60,7 +59,12 @@ namespace InventorySystem
 
             if (!IsActive)
                 _lockImage.gameObject.SetActive(IsEmpty ? true : !Item.IsAvailable);
-            
+            else
+            {
+                _lockImage.gameObject.SetActive(false);   
+                SetTransparencyOfItemImage(0);
+            }
+
             DefaultLocalPositionOfItemImage = ItemImage.transform.localPosition;
         }
 
@@ -95,7 +99,7 @@ namespace InventorySystem
         {
             if (IsEmpty)
                 Item = item;
-            
+
             ItemImage.sprite = item.Sprite;
             SetTransparencyOfItemImage(255);
         }

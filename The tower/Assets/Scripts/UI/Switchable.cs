@@ -9,7 +9,7 @@ using Timer = General.Timer;
 
 namespace UI
 {
-    public class Switchable : MonoBehaviour, IObjectBeindInitialized
+    public class Switchable : MonoBehaviour
     {
         public bool IsOpen { get; private set; }
         [SerializeField] private float _setScaleDuration = 0.5f, _fadeDuration = 0.4f;
@@ -20,7 +20,7 @@ namespace UI
         private float _initialTransparencyOfBackground;
         private Timer _timer;
 
-        public void Initialize()
+        public void Start()
         {
             IsOpen = !_isOffOnStart;
             _initializeScale = transform.localScale;

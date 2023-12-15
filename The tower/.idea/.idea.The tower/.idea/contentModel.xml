@@ -217,13 +217,11 @@
           </e>
           <e p="InventorySystem" t="Include">
             <e p="DragAndDropItem.cs" t="Include" />
-            <e p="IInventoryItem.cs" t="Include" />
             <e p="Inventory.cs" t="Include" />
+            <e p="InventoryItem.cs" t="Include" />
             <e p="InventorySlot.cs" t="Include" />
           </e>
-          <e p="MainMenu" t="Include">
-            <e p="BootstrapperMainMenu.cs" t="Include" />
-          </e>
+          <e p="MainMenu" t="Include" />
           <e p="MyCustomEditor" t="Include">
             <e p="EnumActionAttribute.cs" t="Include" />
             <e p="ReadOnlyInspectorAttribute.cs" t="Include" />

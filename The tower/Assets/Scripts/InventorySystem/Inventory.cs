@@ -7,7 +7,7 @@ using Random = UnityEngine.Random;
 
 namespace InventorySystem
 {
-    public class Inventory : MonoBehaviour, IObjectBeindInitialized
+    public class Inventory : MonoBehaviour
     {
         public InventorySlot TargetSlot { get; private set; }
         [field: SerializeField] public int Capacity { get; set; }
@@ -15,8 +15,7 @@ namespace InventorySystem
         
         [SerializeField] private List<InventorySlot> _slotsList = new List<InventorySlot>();
         [SerializeField] private Image _imageTargetSlot;
-        private readonly Vector3 _bufferPosition = new Vector3(1000, 1000, 1000);
-        
+        private readonly Vector3 _bufferPosition = new Vector3(10000, 10000, 10000);
 
         public void SetTargetSlot(InventorySlot slot)
         {
@@ -34,11 +33,12 @@ namespace InventorySystem
             _imageTargetSlot.transform.localPosition = Vector3.zero;
         }
 
-        public void Initialize()
+        public void Start()
         {
             if (_slotsList.Count == 0)
                 _slotsList = GetComponentsInChildren<InventorySlot>().ToList();
             RemoveExcessSlots(_slotsList);
+            _imageTargetSlot.transform.position = _bufferPosition;
         }
 
         private void RemoveExcessSlots<T>(IList<T> list) where T : InventorySlot 
@@ -87,18 +87,6 @@ namespace InventorySystem
             foreach (var slot in _slotsList)
             {
                 if (!slot.IsEmpty && slot.Item == item)
-                    itemList.Add(slot.Item);
-            }
-
-            return itemList.ToArray();
-        }
-
-        public InventoryItem[] GetEquippedItems(InventoryItem item)
-        {
-            var itemList = new List<InventoryItem>(Capacity);
-            foreach (var slot in _slotsList)
-            {
-                if (!slot.IsEmpty && slot.Item.IsEquipped)
                     itemList.Add(slot.Item);
             }
 

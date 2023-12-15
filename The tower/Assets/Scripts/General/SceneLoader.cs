@@ -5,7 +5,7 @@ using UnityEngine.SceneManagement;
 
 namespace General
 {
-    public class SceneLoader : MonoBehaviour, IObjectBeindInitialized
+    public class SceneLoader : MonoBehaviour
     {
         [SerializeField] private UnityEvent _onLoadScene;
 
@@ -28,7 +28,7 @@ namespace General
             SceneManager.LoadScene(SceneManager.GetActiveScene().buildIndex);
         }
 
-        public void Initialize()
+        public void Start()
         {
             _onLoadScene.AddListener(() => Time.timeScale = 1);
         }

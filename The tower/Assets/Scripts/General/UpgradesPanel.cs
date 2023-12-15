@@ -7,7 +7,7 @@ using UnityEngine.UI;
 
 namespace General
 {
-    public class UpgradesPanel : MonoBehaviour, IObjectBeindInitialized
+    public class UpgradesPanel : MonoBehaviour
     {
         [SerializeField] private TMP_Text _textGameSpeed;
         [Range(0, 10)] [SerializeField] private float _defulatGameSpeed = 1;
@@ -15,7 +15,7 @@ namespace General
         [SerializeField] private bool _isUnlockEconomicUpgradeScreen = true;
         [SerializeField] private List<Image> _listOfPanels = new List<Image>();
         
-        public void Initialize()
+        public void Start()
         {
             if (!PlayerPrefs.HasKey(NamesVariablesPlayerPrefs.GameSpeed))
                 PlayerPrefs.SetFloat(NamesVariablesPlayerPrefs.GameSpeed, _defulatGameSpeed);

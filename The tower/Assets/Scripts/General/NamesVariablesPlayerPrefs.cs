@@ -15,8 +15,17 @@ namespace General
             CashBonus = 9,
             CashBonusForWave = 10
         }
+        
+        public enum CardsTypes
+        {
+            Damage
+        }
+
+        public static readonly CardsTypes CardInOneActiveSlot, CardInTwoActiveSlot;
 
         public static readonly string PostScriptUpgradeLevel = "UpgradeLevel";
+        
+        public static readonly string PostScriptCardLevel = "CardLevel";
 
         public static readonly string MaxOpenLvl = "MaxOpenLvl";
 

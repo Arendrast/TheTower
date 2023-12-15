@@ -15,13 +15,17 @@ namespace InventorySystem
         {
             if (_currentInventorySlot)
             {
-                if (eventData.pointerCurrentRaycast.gameObject.TryGetComponent<InventorySlot>(out var slot)
-                    && slot != _currentInventorySlot && slot.IsActive)
+                if (eventData.pointerCurrentRaycast.gameObject.TryGetComponent<InventorySlot>(out var slot))
                 {
-                    slot.RemoveItem();
-                    slot.AddItem(_currentInventorySlot.Item);
+                    if (slot != _currentInventorySlot && slot.IsActive)
+                    {
+                        slot.RemoveItem();
+                        slot.AddItem(_currentInventorySlot.Item);   
+                    }
                 }
-
+                else if (_currentInventorySlot.IsActive)
+                    _currentInventorySlot.RemoveItem();
+                
                 ReturnImageToSlot();
                 _scrollRect.enabled = true;
                 _currentInventorySlot = null;
@@ -31,22 +35,19 @@ namespace InventorySystem
 
         public void OnPointerDown(PointerEventData eventData)
         {
-            if (eventData.pointerCurrentRaycast.gameObject.TryGetComponent<InventorySlot>(out var slot) && !slot.IsActive)
+            if (eventData.pointerCurrentRaycast.gameObject.TryGetComponent<InventorySlot>(out var slot) && slot.IsAvailable)
             {
-                Debug.Log(1);
-                if (slot.IsAvailable && !slot.IsEmpty)
-                {
-                    _currentInventorySlot = slot;
-                    CurrentImageItem.transform.SetParent(_inventory.transform);
-                    CurrentImageItem.rectTransform.SetAsLastSibling();
-                    _inventory.SetTargetSlot(slot);
-                    _scrollRect.enabled = false;
+                _currentInventorySlot = slot;
+                CurrentImageItem.transform.SetParent(_inventory.transform);
+                CurrentImageItem.rectTransform.SetAsLastSibling();
+                _inventory.SetTargetSlot(slot);
+                _scrollRect.enabled = false;
 
-                    _inventory.SetTargetSlot(slot);
-                }
-                
-                else
-                    _inventory.SetTargetSlot(null);
+                _inventory.SetTargetSlot(slot);
+            }
+            else
+            {
+                _inventory.SetTargetSlot(null);
             }
         }
 
@@ -59,9 +60,7 @@ namespace InventorySystem
         public void OnDrag(PointerEventData eventData)
         {
             if (_currentInventorySlot)
-            {
                 CurrentImageItem.transform.position += new Vector3(eventData.delta.x, eventData.delta.y);
-            }
         }
     }
 }
