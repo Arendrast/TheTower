@@ -4853,7 +4853,7 @@ GameObject:
   - component: {fileID: 8172849020266659020}
   - component: {fileID: 8172849020266659019}
   m_Layer: 0
-  m_Name: CFXR2 Firewall A
+  m_Name: FireVFX
   m_TagString: Untagged
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 0
