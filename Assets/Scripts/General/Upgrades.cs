@@ -8,18 +8,18 @@ using Player;
 using TMPro;
 using UnityEngine;
 using UnityEngine.SceneManagement;
-using UnityEngine.UI;
 
 namespace General
 {
     public class Upgrades : MonoBehaviour, IObjectBeindInitialized
     {
-        public Dictionary<NamesVariablesPlayerPrefs.NamesOfUpgrades, Upgrade> DictOfUpgrades { get; private set; } = new Dictionary<NamesVariablesPlayerPrefs.NamesOfUpgrades, Upgrade>();
-        
+        public Dictionary<NamesVariablesPlayerPrefs.NamesOfUpgrades, Upgrade> DictOfUpgrades { get; private set; }
+            = new Dictionary<NamesVariablesPlayerPrefs.NamesOfUpgrades, Upgrade>();
+
         [SerializeField] private List<Upgrade> _listOfUpgrades;
-    
-        [SerializeField] private Money _money;
-    
+
+        [SerializeField] private MoneyCurrency _moneyCurrency;
+
         [SerializeField] private string _contentErrorNoEnoughCrystal = "No money!";
         [SerializeField] private string _contentErrorMaxLvl = "You have max lvl!";
         [SerializeField] private string _contentOfNotificationAboutImproveOfUpgrade = " upgraded";
@@ -29,51 +29,19 @@ namespace General
         private TMP_Text _errorText, _notificationText;
 
         private Sprite _defaultSpriteOfImageOfUpgradeInitialLevelCat;
-    
+
         private int _maxOpenLevel;
         private int _currentLvl;
         private const int IndexOfFirstLevelOfUpgrades = 0;
 
-        [Serializable]
-        public class Upgrade
-        {
-            [ReadOnlyInspector] public NamesVariablesPlayerPrefs.NamesOfUpgrades Name;
-            public string NameOfValueVariableInPlayerPrefs => Name.ToString();
-            public string NameOfLevelVariableInPlayerPrefs => Name + NamesVariablesPlayerPrefs.PostScriptUpgradeLevel;
-            public int MaxLvl => ListOfParameters.Count;
-            
-            [field: SerializeField] public string NameInNotification { get; private set; }
-            [field: SerializeField] public TMP_Text TextOfPrice { get; private set; }
-            [field: SerializeField] public TMP_Text TextOfLvl { get; private set; }
-            [field: SerializeField] public TMP_Text TextOfValue { get; private set; }
-            //[field: SerializeField] public TMP_Text TextOfRequiredLvl { get; private set; }
-            [field: SerializeField] public Color ColorOnClosed { get; private set; }
-            [field: SerializeField] public Color ColorOnOpened { get; private set; }
-            [field: SerializeField] public Sprite SpriteOnClosed { get; private set; }
-            [field: SerializeField] public Sprite DefaultSprite { get; private set; }
-            [field: SerializeField] public Button UseButton { get; private set; }
-            [field: SerializeField] public float InitialValue { get; private set; }
-            [field: SerializeField] public List<FieldUpgrade> ListOfParameters { get; private set; }
-
-            public Action<float> OnChangeValue;
-            //[field: SerializeField] public List<FieldUpgrade> ListOfParametersOfSecondParameter { get; private set; }
-        }
-        
         private const int IndexOfElementOfFirstUpgrade = 0;
 
-        [Serializable]
-        public class FieldUpgrade
+        public void Construct(Tower tower, TowerHealth towerHealth, MoneyCurrency moneyCurrency)
         {
-            [field: SerializeField] public float Multiplier { get; private set; }
-            [field: SerializeField] public int Price { get; private set; }
-            [field: SerializeField] public int RequiredLevel { get; private set; }
-        }
-
-        private void OnValidate()
-        {
-            var listOfNamesOfUpgrades = Enum.GetValues(typeof(NamesVariablesPlayerPrefs.NamesOfUpgrades)).Cast<NamesVariablesPlayerPrefs.NamesOfUpgrades>().ToList();
-            for (var i = 0; i < _listOfUpgrades.Count; i++)
-                _listOfUpgrades[i].Name = listOfNamesOfUpgrades[i];
+            _tower = tower;
+            _towerHealth = towerHealth;
+            _moneyCurrency = moneyCurrency;
+            Initialize();
         }
 
         public void Initialize()
@@ -92,14 +60,23 @@ namespace General
                 _listOfUpgrades[i].UseButton.image.sprite = _listOfUpgrades[i].DefaultSprite;
             }
 
-            if (!_money)
-                _money = FindObjectOfType<Money>();
+            if (!_moneyCurrency)
+                _moneyCurrency = FindObjectOfType<MoneyCurrency>();
             if (!_tower)
                 _tower = FindObjectOfType<Tower>();
         
             //_errorText.gameObject.SetActive(true);
         }
-        
+
+        private void OnValidate()
+        {
+            var listOfNamesOfUpgrades = Enum.GetValues(typeof(NamesVariablesPlayerPrefs.NamesOfUpgrades)).
+                Cast<NamesVariablesPlayerPrefs.NamesOfUpgrades>().ToList();
+           
+            for (var i = 0; i < _listOfUpgrades.Count; i++)
+                _listOfUpgrades[i].Name = listOfNamesOfUpgrades[i];
+        }
+
         private void InitializeAndConfigureUpgrade(Upgrade upgrade)
         {
             var listOfParameters = upgrade.ListOfParameters;
@@ -135,10 +112,10 @@ namespace General
             
             else
             {
-                if (upgrade.ListOfParameters[indexLevel].Price > _money.Number)
+                if (upgrade.ListOfParameters[indexLevel].Price > _moneyCurrency.Number)
                 {
                     MakeClosedStateOfButton(upgrade);
-                    yield return new WaitUntil(() => upgrade.ListOfParameters[indexLevel].Price <= _money.Number);
+                    yield return new WaitUntil(() => upgrade.ListOfParameters[indexLevel].Price <= _moneyCurrency.Number);
                 }
 
                 upgrade.TextOfPrice.gameObject.SetActive(true);
@@ -166,7 +143,7 @@ namespace General
         public bool GetIsImprove(Upgrade upgrade)
         {
             var upgradeIndex = PlayerPrefs.GetInt(upgrade.NameOfLevelVariableInPlayerPrefs);
-            if (_money.Number >= upgrade.ListOfParameters[upgradeIndex].Price)
+            if (_moneyCurrency.Number >= upgrade.ListOfParameters[upgradeIndex].Price)
             {
                 Improve(upgrade);
                 return PlayerPrefs.GetInt(upgrade.NameOfLevelVariableInPlayerPrefs) > upgradeIndex;
@@ -214,7 +191,7 @@ namespace General
 
             if (index + 1 < upgrade.MaxLvl)
             {
-                if (_money.Number >= listOfParameters[index].Price)
+                if (_moneyCurrency.Number >= listOfParameters[index].Price)
                 {
                     SetTexts(new List<TMP_Text> {upgrade.TextOfPrice, upgrade.TextOfLvl},
                         new List<string>
@@ -224,8 +201,8 @@ namespace General
                     var value = listOfParameters[index].Multiplier * upgrade.InitialValue;
                     PlayerPrefs.SetFloat(nameOfValueVariableInPlayerPrefs, value);
                     PlayerPrefs.SetInt(nameOfLevelVariableInPlayerPrefs, index + 1);
-                    _money.Number -= listOfParameters[index].Price;
-                    _money.SaveInPlayerPref();
+                    _moneyCurrency.Number -= listOfParameters[index].Price;
+                    _moneyCurrency.SaveInPlayerPref();
                     //_notificationText.text = upgrade.NameInNotification + _contentOfNotificationAboutImproveOfUpgrade;
                     ChangeValueOnValueText(upgrade);
                     StartCoroutine(UpdateStateOfButton(upgrade, index + 1));

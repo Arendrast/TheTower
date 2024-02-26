@@ -1,9 +1,9 @@
 ﻿using System;
 using System.Collections.Generic;
-using Assets.TBR.Scripts.Logic;
 using Infrastructure.Factory;
 using Infrastructure.Services.PersistentProgress;
 using Infrastructure.Services.SaveLoad;
+using Logic;
 using VContainer;
 using VContainer.Unity;
 
@@ -17,17 +17,17 @@ namespace Infrastructure.States
         
         [Inject]
         public GameStateMachine(SceneLoader sceneLoader, LoadingCurtain loadingCurtain, IGameFactory gameFactory,
-            IPersistentProgressService progressService, ISaveLoadService saveLoadService)
+            IPersistentProgressService progressService, ISaveLoadService saveLoadService, IUIFactory uiFactory)
         {
-            RegisterState<BootstrapState>(new BootstrapState(this, sceneLoader));
+            RegisterState<BootstrapState>(new BootstrapState(this));
             
             RegisterState<LoadProgressState>(new LoadProgressState(this, progressService, 
             saveLoadService));
             
             RegisterState<LoadLevelState>(new LoadLevelState(this, sceneLoader, loadingCurtain, 
-                gameFactory));
+                gameFactory, uiFactory));
             
-            RegisterState<GameLoopState>(new GameLoopState(this));
+            RegisterState<MainMenuState>(new MainMenuState(this));
             
             Enter<BootstrapState>();
         }

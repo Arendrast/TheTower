@@ -2,14 +2,11 @@
 {
     public class BootstrapState : IState
     {
-        private const string Initial = "TBR/Other/Scenes/Initial";
-        private readonly SceneLoader _sceneLoader;
         private readonly GameStateMachine _stateMachine;
         
-        public BootstrapState(GameStateMachine stateMachine, SceneLoader sceneLoader)
+        public BootstrapState(GameStateMachine stateMachine)
         {
             _stateMachine = stateMachine;
-            _sceneLoader = sceneLoader;
         }
 
         public void Enter()

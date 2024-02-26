@@ -1,9 +1,9 @@
 ﻿using UnityEngine;
 
-namespace Assets.TBR.Scripts.UI
+namespace UI
 {
     public abstract class BaseAnimationProvider : MonoBehaviour
     {
-        public abstract void Play(string name);
+        public abstract void Play(string animationName);
     }
 }

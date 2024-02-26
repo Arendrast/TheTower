@@ -1,5 +1,4 @@
 using System;
-using Assets.TBR.Scripts.UI;
 using UnityEngine;
 using UnityEngine.UI;
 
@@ -13,22 +12,32 @@ namespace UI
 
         [SerializeField] private PopupAnimator[] _popupAnimators;
         [SerializeField] protected Button closeButton;
-        [SerializeField] private Button _openButton;
+        [SerializeField] protected Button openButton;
         [SerializeField] private bool _isOpen;
 
         public bool IsOpen => _isOpen;
+        private bool IsHaveAnimator() => _popupAnimators.Length > 0; 
         
         protected void Awake()
         {
             _body.SetActive(_isOpen);
             
-            _openButton?.onClick.AddListener(OpenPopup);
+            openButton?.onClick.AddListener(OpenPopup);
             closeButton?.onClick.AddListener(ClosePopup);
-
-            //if (_popupAnimators.Length == 0)
-                //Debug.LogWarning("Animation list is empty!");
-
+            
             OnInitialization();
+        }
+
+        private void OnSetState()
+        {
+            if (IsHaveAnimator())
+            {
+                PlayAnimation(_isOpen);   
+            }
+            else
+            {
+                _body.gameObject.SetActive(_isOpen); 
+            }
         }
 
         public void OpenPopup()
@@ -36,23 +45,20 @@ namespace UI
             if (_isOpen) return;
 
             _isOpen = true;
-            _body.SetActive(true);
-            
+            OnSetState();
             Opened?.Invoke();
             OnOpenPopup();
             PlayAnimation(_isOpen);
         }
 
-        protected void ClosePopup()
+        public void ClosePopup()
         {
             if (!_isOpen) return;
 
             _isOpen = false;
-            _body.SetActive(false);
-
+            OnSetState();
             Closed?.Invoke();
             OnClosePopup();
-            PlayAnimation(_isOpen);
         }
 
         #region Callbacks
@@ -73,8 +79,8 @@ namespace UI
 
         private void PlayAnimation(bool isOpen)
         {
-            for (int i = 0; i < _popupAnimators.Length; i++)
-                _popupAnimators[i].SetOpenFlag(isOpen);
+            foreach (var animator in _popupAnimators)
+                animator.SetOpenFlag(isOpen);
         }
     }
 }

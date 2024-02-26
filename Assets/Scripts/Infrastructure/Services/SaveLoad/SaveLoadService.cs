@@ -32,7 +32,7 @@ namespace Infrastructure.Services.SaveLoad
                 
                 if (fileStream.Length == 0)
                 {
-                    formatter.Serialize(fileStream, new Progress(SceneNames.FirstLevel));
+                    formatter.Serialize(fileStream, new Progress(SceneNames.MainMenu));
                 }
                 
                 fileStream.Position = 0;
@@ -40,10 +40,5 @@ namespace Infrastructure.Services.SaveLoad
                 _progressService.Progress = progress;
             }
         }
-    }
-
-    public static class SceneNames
-    {
-        public const string FirstLevel = "FirstLevel";
     }
 }

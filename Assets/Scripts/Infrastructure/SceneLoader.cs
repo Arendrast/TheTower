@@ -1,5 +1,6 @@
 ﻿using System;
 using System.Collections;
+using UnityEngine;
 using UnityEngine.SceneManagement;
 
 namespace Infrastructure
@@ -13,25 +14,23 @@ namespace Infrastructure
             _coroutineRunner = coroutineRunner;
         }
 
-        public void Load(string name, Action onLoaded = null)
-        {
+        public void Load(string name, Action onLoaded = null) => 
             _coroutineRunner.StartCoroutine(LoadScene(name, onLoaded));
-        }
 
-        public IEnumerator LoadScene(string nextScene, Action onLoaded = null)
+        private IEnumerator LoadScene(string nextScene, Action Loaded = null)
         {
             if (SceneManager.GetActiveScene().name == nextScene)
             {
-                onLoaded?.Invoke();
+                Loaded?.Invoke();
                 yield break;
             }
 
             var waitNextScene = SceneManager.LoadSceneAsync(nextScene);
 
             while (!waitNextScene.isDone)
-                yield return null;
-
-            onLoaded?.Invoke();
+                yield return null;   
+            
+            Loaded?.Invoke();
         }
     }
 }

@@ -1,0 +1,323 @@
+%YAML 1.1
+%TAG !u! tag:unity3d.com,2011:
+--- !u!1 &4091540646754608641
+GameObject:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  serializedVersion: 6
+  m_Component:
+  - component: {fileID: 3690138278013088}
+  - component: {fileID: 6519610611350253550}
+  m_Layer: 0
+  m_Name: Upgrades
+  m_TagString: Untagged
+  m_Icon: {fileID: 0}
+  m_NavMeshLayer: 0
+  m_StaticEditorFlags: 0
+  m_IsActive: 1
+--- !u!4 &3690138278013088
+Transform:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 4091540646754608641}
+  serializedVersion: 2
+  m_LocalRotation: {x: -0, y: -0, z: -0, w: 1}
+  m_LocalPosition: {x: 0, y: 0, z: 0}
+  m_LocalScale: {x: 1, y: 1, z: 1}
+  m_ConstrainProportionsScale: 0
+  m_Children: []
+  m_Father: {fileID: 0}
+  m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
+--- !u!114 &6519610611350253550
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 4091540646754608641}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: d8f07f96c1a5c30408fb220381f30ac7, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  _listOfUpgrades:
+  - Name: 1
+    <NameInNotification>k__BackingField: 
+    <TextOfPrice>k__BackingField: {fileID: 0}
+    <TextOfLvl>k__BackingField: {fileID: 0}
+    <TextOfValue>k__BackingField: {fileID: 0}
+    <ColorOnClosed>k__BackingField: {r: 0.69803923, g: 0.69803923, b: 0.69803923, a: 1}
+    <ColorOnOpened>k__BackingField: {r: 0.4117647, g: 0.43529412, b: 1, a: 1}
+    <SpriteOnClosed>k__BackingField: {fileID: 21300000, guid: a6044d7f9e800064bbf8bcd3d99f62ad, type: 3}
+    <DefaultSprite>k__BackingField: {fileID: 21300000, guid: a6044d7f9e800064bbf8bcd3d99f62ad, type: 3}
+    <UseButton>k__BackingField: {fileID: 0}
+    <InitialValue>k__BackingField: 50
+    <ListOfParameters>k__BackingField:
+    - <Multiplier>k__BackingField: 1
+      <Price>k__BackingField: 10
+      <RequiredLevel>k__BackingField: 1
+    - <Multiplier>k__BackingField: 2
+      <Price>k__BackingField: 12
+      <RequiredLevel>k__BackingField: 1
+    - <Multiplier>k__BackingField: 3
+      <Price>k__BackingField: 14
+      <RequiredLevel>k__BackingField: 1
+    - <Multiplier>k__BackingField: 4
+      <Price>k__BackingField: 17
+      <RequiredLevel>k__BackingField: 1
+    - <Multiplier>k__BackingField: 5
+      <Price>k__BackingField: 20
+      <RequiredLevel>k__BackingField: 1
+  - Name: 2
+    <NameInNotification>k__BackingField: 
+    <TextOfPrice>k__BackingField: {fileID: 0}
+    <TextOfLvl>k__BackingField: {fileID: 0}
+    <TextOfValue>k__BackingField: {fileID: 0}
+    <ColorOnClosed>k__BackingField: {r: 0.69803923, g: 0.69803923, b: 0.69803923, a: 1}
+    <ColorOnOpened>k__BackingField: {r: 0.4117647, g: 0.43529412, b: 1, a: 1}
+    <SpriteOnClosed>k__BackingField: {fileID: 21300000, guid: a6044d7f9e800064bbf8bcd3d99f62ad, type: 3}
+    <DefaultSprite>k__BackingField: {fileID: 21300000, guid: a6044d7f9e800064bbf8bcd3d99f62ad, type: 3}
+    <UseButton>k__BackingField: {fileID: 0}
+    <InitialValue>k__BackingField: 100
+    <ListOfParameters>k__BackingField:
+    - <Multiplier>k__BackingField: 1
+      <Price>k__BackingField: 5
+      <RequiredLevel>k__BackingField: 1
+    - <Multiplier>k__BackingField: 1.05
+      <Price>k__BackingField: 7
+      <RequiredLevel>k__BackingField: 1
+    - <Multiplier>k__BackingField: 1.1
+      <Price>k__BackingField: 10
+      <RequiredLevel>k__BackingField: 1
+    - <Multiplier>k__BackingField: 1.15
+      <Price>k__BackingField: 15
+      <RequiredLevel>k__BackingField: 1
+    - <Multiplier>k__BackingField: 1.2
+      <Price>k__BackingField: 21
+      <RequiredLevel>k__BackingField: 1
+  - Name: 3
+    <NameInNotification>k__BackingField: 
+    <TextOfPrice>k__BackingField: {fileID: 0}
+    <TextOfLvl>k__BackingField: {fileID: 0}
+    <TextOfValue>k__BackingField: {fileID: 0}
+    <ColorOnClosed>k__BackingField: {r: 0.69803923, g: 0.69803923, b: 0.69803923, a: 1}
+    <ColorOnOpened>k__BackingField: {r: 0.4117647, g: 0.43529412, b: 1, a: 1}
+    <SpriteOnClosed>k__BackingField: {fileID: 21300000, guid: a6044d7f9e800064bbf8bcd3d99f62ad, type: 3}
+    <DefaultSprite>k__BackingField: {fileID: 21300000, guid: a6044d7f9e800064bbf8bcd3d99f62ad, type: 3}
+    <UseButton>k__BackingField: {fileID: 0}
+    <InitialValue>k__BackingField: 1.5
+    <ListOfParameters>k__BackingField:
+    - <Multiplier>k__BackingField: 1
+      <Price>k__BackingField: 4
+      <RequiredLevel>k__BackingField: 1
+    - <Multiplier>k__BackingField: 2
+      <Price>k__BackingField: 6
+      <RequiredLevel>k__BackingField: 1
+    - <Multiplier>k__BackingField: 3
+      <Price>k__BackingField: 9
+      <RequiredLevel>k__BackingField: 1
+    - <Multiplier>k__BackingField: 4
+      <Price>k__BackingField: 13
+      <RequiredLevel>k__BackingField: 1
+    - <Multiplier>k__BackingField: 5
+      <Price>k__BackingField: 18
+      <RequiredLevel>k__BackingField: 1
+  - Name: 4
+    <NameInNotification>k__BackingField: 
+    <TextOfPrice>k__BackingField: {fileID: 0}
+    <TextOfLvl>k__BackingField: {fileID: 0}
+    <TextOfValue>k__BackingField: {fileID: 0}
+    <ColorOnClosed>k__BackingField: {r: 0.69803923, g: 0.69803923, b: 0.69803923, a: 1}
+    <ColorOnOpened>k__BackingField: {r: 0.4117647, g: 0.43529412, b: 1, a: 1}
+    <SpriteOnClosed>k__BackingField: {fileID: 21300000, guid: a6044d7f9e800064bbf8bcd3d99f62ad, type: 3}
+    <DefaultSprite>k__BackingField: {fileID: 21300000, guid: a6044d7f9e800064bbf8bcd3d99f62ad, type: 3}
+    <UseButton>k__BackingField: {fileID: 0}
+    <InitialValue>k__BackingField: 1
+    <ListOfParameters>k__BackingField:
+    - <Multiplier>k__BackingField: 1
+      <Price>k__BackingField: 5
+      <RequiredLevel>k__BackingField: 1
+    - <Multiplier>k__BackingField: 1.2
+      <Price>k__BackingField: 10
+      <RequiredLevel>k__BackingField: 1
+    - <Multiplier>k__BackingField: 1.3
+      <Price>k__BackingField: 12
+      <RequiredLevel>k__BackingField: 1
+    - <Multiplier>k__BackingField: 1.4
+      <Price>k__BackingField: 15
+      <RequiredLevel>k__BackingField: 1
+    - <Multiplier>k__BackingField: 1.5
+      <Price>k__BackingField: 19
+      <RequiredLevel>k__BackingField: 1
+  - Name: 5
+    <NameInNotification>k__BackingField: 
+    <TextOfPrice>k__BackingField: {fileID: 0}
+    <TextOfLvl>k__BackingField: {fileID: 0}
+    <TextOfValue>k__BackingField: {fileID: 0}
+    <ColorOnClosed>k__BackingField: {r: 0.69803923, g: 0.69803923, b: 0.69803923, a: 1}
+    <ColorOnOpened>k__BackingField: {r: 0.4117647, g: 0.43529412, b: 1, a: 1}
+    <SpriteOnClosed>k__BackingField: {fileID: 21300000, guid: a6044d7f9e800064bbf8bcd3d99f62ad, type: 3}
+    <DefaultSprite>k__BackingField: {fileID: 21300000, guid: a6044d7f9e800064bbf8bcd3d99f62ad, type: 3}
+    <UseButton>k__BackingField: {fileID: 0}
+    <InitialValue>k__BackingField: 2
+    <ListOfParameters>k__BackingField:
+    - <Multiplier>k__BackingField: 1
+      <Price>k__BackingField: 10
+      <RequiredLevel>k__BackingField: 2
+    - <Multiplier>k__BackingField: 1.017
+      <Price>k__BackingField: 14
+      <RequiredLevel>k__BackingField: 2
+    - <Multiplier>k__BackingField: 1.034
+      <Price>k__BackingField: 20
+      <RequiredLevel>k__BackingField: 2
+    - <Multiplier>k__BackingField: 1.05
+      <Price>k__BackingField: 26
+      <RequiredLevel>k__BackingField: 2
+    - <Multiplier>k__BackingField: 1.067
+      <Price>k__BackingField: 33
+      <RequiredLevel>k__BackingField: 2
+  - Name: 6
+    <NameInNotification>k__BackingField: 
+    <TextOfPrice>k__BackingField: {fileID: 0}
+    <TextOfLvl>k__BackingField: {fileID: 0}
+    <TextOfValue>k__BackingField: {fileID: 0}
+    <ColorOnClosed>k__BackingField: {r: 0.69803923, g: 0.69803923, b: 0.69803923, a: 1}
+    <ColorOnOpened>k__BackingField: {r: 0.4117647, g: 0.43529412, b: 1, a: 1}
+    <SpriteOnClosed>k__BackingField: {fileID: 21300000, guid: a6044d7f9e800064bbf8bcd3d99f62ad, type: 3}
+    <DefaultSprite>k__BackingField: {fileID: 21300000, guid: a6044d7f9e800064bbf8bcd3d99f62ad, type: 3}
+    <UseButton>k__BackingField: {fileID: 0}
+    <InitialValue>k__BackingField: 1
+    <ListOfParameters>k__BackingField:
+    - <Multiplier>k__BackingField: 1
+      <Price>k__BackingField: 20
+      <RequiredLevel>k__BackingField: 2
+    - <Multiplier>k__BackingField: 1.8
+      <Price>k__BackingField: 24
+      <RequiredLevel>k__BackingField: 2
+    - <Multiplier>k__BackingField: 2.5
+      <Price>k__BackingField: 30
+      <RequiredLevel>k__BackingField: 2
+    - <Multiplier>k__BackingField: 4
+      <Price>k__BackingField: 36
+      <RequiredLevel>k__BackingField: 2
+    - <Multiplier>k__BackingField: 5.5
+      <Price>k__BackingField: 42
+      <RequiredLevel>k__BackingField: 2
+  - Name: 7
+    <NameInNotification>k__BackingField: 
+    <TextOfPrice>k__BackingField: {fileID: 0}
+    <TextOfLvl>k__BackingField: {fileID: 0}
+    <TextOfValue>k__BackingField: {fileID: 0}
+    <ColorOnClosed>k__BackingField: {r: 0.69803923, g: 0.69803923, b: 0.69803923, a: 1}
+    <ColorOnOpened>k__BackingField: {r: 0.078431375, g: 0.9607843, b: 0, a: 1}
+    <SpriteOnClosed>k__BackingField: {fileID: 21300000, guid: a6044d7f9e800064bbf8bcd3d99f62ad, type: 3}
+    <DefaultSprite>k__BackingField: {fileID: 21300000, guid: a6044d7f9e800064bbf8bcd3d99f62ad, type: 3}
+    <UseButton>k__BackingField: {fileID: 0}
+    <InitialValue>k__BackingField: 5
+    <ListOfParameters>k__BackingField:
+    - <Multiplier>k__BackingField: 1
+      <Price>k__BackingField: 10
+      <RequiredLevel>k__BackingField: 1
+    - <Multiplier>k__BackingField: 2
+      <Price>k__BackingField: 12
+      <RequiredLevel>k__BackingField: 1
+    - <Multiplier>k__BackingField: 3
+      <Price>k__BackingField: 15
+      <RequiredLevel>k__BackingField: 1
+    - <Multiplier>k__BackingField: 4
+      <Price>k__BackingField: 19
+      <RequiredLevel>k__BackingField: 1
+    - <Multiplier>k__BackingField: 5.2
+      <Price>k__BackingField: 23
+      <RequiredLevel>k__BackingField: 1
+  - Name: 8
+    <NameInNotification>k__BackingField: 
+    <TextOfPrice>k__BackingField: {fileID: 0}
+    <TextOfLvl>k__BackingField: {fileID: 0}
+    <TextOfValue>k__BackingField: {fileID: 0}
+    <ColorOnClosed>k__BackingField: {r: 0.69803923, g: 0.69803923, b: 0.69803923, a: 1}
+    <ColorOnOpened>k__BackingField: {r: 0.078431375, g: 0.9607844, b: 0, a: 1}
+    <SpriteOnClosed>k__BackingField: {fileID: 21300000, guid: a6044d7f9e800064bbf8bcd3d99f62ad, type: 3}
+    <DefaultSprite>k__BackingField: {fileID: 21300000, guid: a6044d7f9e800064bbf8bcd3d99f62ad, type: 3}
+    <UseButton>k__BackingField: {fileID: 0}
+    <InitialValue>k__BackingField: 0.01
+    <ListOfParameters>k__BackingField:
+    - <Multiplier>k__BackingField: 1
+      <Price>k__BackingField: 5
+      <RequiredLevel>k__BackingField: 1
+    - <Multiplier>k__BackingField: 4
+      <Price>k__BackingField: 7
+      <RequiredLevel>k__BackingField: 1
+    - <Multiplier>k__BackingField: 9
+      <Price>k__BackingField: 10
+      <RequiredLevel>k__BackingField: 1
+    - <Multiplier>k__BackingField: 15
+      <Price>k__BackingField: 14
+      <RequiredLevel>k__BackingField: 1
+    - <Multiplier>k__BackingField: 23
+      <Price>k__BackingField: 18
+      <RequiredLevel>k__BackingField: 1
+  - Name: 9
+    <NameInNotification>k__BackingField: 
+    <TextOfPrice>k__BackingField: {fileID: 0}
+    <TextOfLvl>k__BackingField: {fileID: 0}
+    <TextOfValue>k__BackingField: {fileID: 0}
+    <ColorOnClosed>k__BackingField: {r: 0.69803923, g: 0.69803923, b: 0.69803923, a: 1}
+    <ColorOnOpened>k__BackingField: {r: 0.9607843, g: 0.45490196, b: 0, a: 1}
+    <SpriteOnClosed>k__BackingField: {fileID: 21300000, guid: a6044d7f9e800064bbf8bcd3d99f62ad, type: 3}
+    <DefaultSprite>k__BackingField: {fileID: 21300000, guid: a6044d7f9e800064bbf8bcd3d99f62ad, type: 3}
+    <UseButton>k__BackingField: {fileID: 0}
+    <InitialValue>k__BackingField: 1
+    <ListOfParameters>k__BackingField:
+    - <Multiplier>k__BackingField: 1
+      <Price>k__BackingField: 5
+      <RequiredLevel>k__BackingField: 1
+    - <Multiplier>k__BackingField: 4
+      <Price>k__BackingField: 7
+      <RequiredLevel>k__BackingField: 1
+    - <Multiplier>k__BackingField: 9
+      <Price>k__BackingField: 10
+      <RequiredLevel>k__BackingField: 1
+    - <Multiplier>k__BackingField: 15
+      <Price>k__BackingField: 14
+      <RequiredLevel>k__BackingField: 1
+    - <Multiplier>k__BackingField: 23
+      <Price>k__BackingField: 18
+      <RequiredLevel>k__BackingField: 1
+  - Name: 10
+    <NameInNotification>k__BackingField: 
+    <TextOfPrice>k__BackingField: {fileID: 0}
+    <TextOfLvl>k__BackingField: {fileID: 0}
+    <TextOfValue>k__BackingField: {fileID: 0}
+    <ColorOnClosed>k__BackingField: {r: 0.69803923, g: 0.69803923, b: 0.69803923, a: 1}
+    <ColorOnOpened>k__BackingField: {r: 0.9607844, g: 0.454902, b: 0, a: 1}
+    <SpriteOnClosed>k__BackingField: {fileID: 21300000, guid: a6044d7f9e800064bbf8bcd3d99f62ad, type: 3}
+    <DefaultSprite>k__BackingField: {fileID: 21300000, guid: a6044d7f9e800064bbf8bcd3d99f62ad, type: 3}
+    <UseButton>k__BackingField: {fileID: 0}
+    <InitialValue>k__BackingField: 1
+    <ListOfParameters>k__BackingField:
+    - <Multiplier>k__BackingField: 1
+      <Price>k__BackingField: 5
+      <RequiredLevel>k__BackingField: 1
+    - <Multiplier>k__BackingField: 4
+      <Price>k__BackingField: 7
+      <RequiredLevel>k__BackingField: 1
+    - <Multiplier>k__BackingField: 9
+      <Price>k__BackingField: 10
+      <RequiredLevel>k__BackingField: 1
+    - <Multiplier>k__BackingField: 15
+      <Price>k__BackingField: 14
+      <RequiredLevel>k__BackingField: 1
+    - <Multiplier>k__BackingField: 23
+      <Price>k__BackingField: 18
+      <RequiredLevel>k__BackingField: 1
+  _moneyCurrency: {fileID: 0}
+  _contentErrorNoEnoughCrystal: No money!
+  _contentErrorMaxLvl: You have max lvl!
+  _contentOfNotificationAboutImproveOfUpgrade: ' upgraded'
+  _tower: {fileID: 0}
+  _towerHealth: {fileID: 0}

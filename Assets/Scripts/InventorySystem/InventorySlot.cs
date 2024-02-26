@@ -9,9 +9,8 @@ namespace InventorySystem
 {
     public class InventorySlot : MonoBehaviour, IObjectBeindInitialized
     {
-        public bool IsAvailable => IsEmpty ? false : Item.IsAvailable;
-
-        [field: SerializeField]
+        public bool IsAvailable => !IsEmpty && Item.IsAvailable;
+        
         public Image ItemImage
         {
             get => _itemImage;

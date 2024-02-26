@@ -1,5 +1,4 @@
 ﻿
-
 namespace Infrastructure.Services.StaticData
 {
     public class StaticDataService : IStaticDataService

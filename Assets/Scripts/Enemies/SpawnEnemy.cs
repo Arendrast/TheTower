@@ -22,7 +22,7 @@ namespace Enemies
         [SerializeField] private UnityEvent _onWin;
         private Transform Player => _towerHealth.transform;
         [SerializeField] private TowerHealth _towerHealth;
-        [SerializeField] private Money _money;
+        [SerializeField] private MoneyCurrency _moneyCurrency;
         [SerializeField] private bool _isDrawSpawnZone = true;
 
         [Space] [Header("Slider")] [Range(0, 10)] [SerializeField]
@@ -164,7 +164,7 @@ namespace Enemies
                                 enemyHealth.OnDie.AddListener(ReduceNumberEnemies);
                                 RotateEnemy(currentEnemy.transform);
                                 currentEnemy.EndPointOfMovement = Player.transform.position;
-                                enemyHealth.OnDie.AddListener(() => _money.Number += enemyHealth.RewardForKill * PlayerPrefs.GetFloat(NamesVariablesPlayerPrefs.NamesOfUpgrades.CashBonus.ToString()));
+                                enemyHealth.OnDie.AddListener(() => _moneyCurrency.Number += enemyHealth.RewardForKill * PlayerPrefs.GetFloat(NamesVariablesPlayerPrefs.NamesOfUpgrades.CashBonus.ToString()));
                                 _towerHealth.OnDie.AddListener(() => { if (currentEnemy) currentEnemy.StopMove(); });
 
                                 listOfSectorIndexes.Remove(sectorIndex);
@@ -182,7 +182,7 @@ namespace Enemies
                 yield return new WaitUntil(() => _numberOfRemainingEnemiesOnStage <= 0);
             }
 
-            _money.Number += PlayerPrefs.GetFloat(NamesVariablesPlayerPrefs.NamesOfUpgrades.CashBonusForWave.ToString());
+            _moneyCurrency.Number += PlayerPrefs.GetFloat(NamesVariablesPlayerPrefs.NamesOfUpgrades.CashBonusForWave.ToString());
 
             if (CurrentWave + 1 != _waveList.Count && !_towerHealth.IsDie)
             {

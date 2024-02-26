@@ -1,4 +1,3 @@
-using System;
 using System.Collections.Generic;
 using General;
 using UnityEngine;
@@ -14,14 +13,6 @@ namespace InventorySystem
         [SerializeField] private NamesVariablesPlayerPrefs.CardsTypes _type;
         [SerializeField] private List<CardLevel> _upgrades = new List<CardLevel>();
         [SerializeField] private float _initialValue;
-        
-        [Serializable]
-        public class CardLevel
-        {
-            [field: SerializeField] public float Multiplier { get; private set; }
-            [field: SerializeField] public int Price { get; private set; }
-            [field: SerializeField] public int RequiredLevel { get; private set; }
-        }
 
         public void Initialize()
         {

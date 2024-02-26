@@ -1,7 +1,6 @@
-﻿using System;
-using UnityEngine;
+﻿using UnityEngine;
 
-namespace Assets.TBR.Scripts.UI
+namespace UI
 {
     public class PopupAnimator : MonoBehaviour
     {
@@ -13,10 +12,9 @@ namespace Assets.TBR.Scripts.UI
         private void Awake()
         {
             _animationProvider = GetComponent<BaseAnimationProvider>();
+            
             if (!_animationProvider)
-            {
-                throw new Exception($"AnimationProvider not exists on {gameObject.name}");
-            }
+                Debug.LogError($"AnimationProvider not exists on {gameObject.name}");
         }
 
         public void SetOpenFlag(bool flag)
@@ -24,10 +22,9 @@ namespace Assets.TBR.Scripts.UI
             if (!_animationProvider) 
                 _animationProvider = GetComponent<BaseAnimationProvider>();
 
-            if (flag)
-                _animationProvider.Play(_openAnimationName);
-            else
-                _animationProvider.Play(_closeAnimationName);
+            _animationProvider.Play(flag 
+                ? _openAnimationName 
+                : _closeAnimationName);
         }
     }
 }

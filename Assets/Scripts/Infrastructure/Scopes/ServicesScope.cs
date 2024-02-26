@@ -6,7 +6,7 @@ using Infrastructure.Services.Randomizer;
 using Infrastructure.Services.SaveLoad;
 using Infrastructure.Services.StaticData;
 using Infrastructure.States;
-using UI;
+using Logic;
 using UnityEngine;
 using VContainer;
 using VContainer.Unity;

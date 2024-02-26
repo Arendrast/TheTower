@@ -194,13 +194,15 @@
             <e p="CFXR_WelcomeScreen.uxml" t="Include" />
           </e>
         </e>
-        <e p="Resources" t="Include" />
+        <e p="Resources" t="Include">
+          <e p="UI" t="Include" />
+        </e>
         <e p="Scenes" t="Include" />
         <e p="Scripts" t="Include">
           <e p="Currencies" t="Include">
-            <e p="Crystal.cs" t="Include" />
+            <e p="CrystalCurrency.cs" t="Include" />
             <e p="Currency.cs" t="Include" />
-            <e p="Money.cs" t="Include" />
+            <e p="MoneyCurrency.cs" t="Include" />
             <e p="SCurrency.cs" t="Include" />
           </e>
           <e p="Enemies" t="Include">
@@ -210,15 +212,18 @@
           </e>
           <e p="General" t="Include">
             <e p="Constants.cs" t="Include" />
-            <e p="GameBootstrapper.cs" t="Include" />
+            <e p="FieldUpgrade.cs" t="Include" />
             <e p="GameClear.cs" t="Include" />
             <e p="Health.cs" t="Include" />
             <e p="IObjectBeindInitialized.cs" t="Include" />
+            <e p="MusicPlayer.cs" t="Include" />
             <e p="NamesVariablesPlayerPrefs.cs" t="Include" />
             <e p="Particles.cs" t="Include" />
-            <e p="SceneLoader.cs" t="Include" />
             <e p="SceneStorage.cs" t="Include" />
+            <e p="Song.cs" t="Include" />
+            <e p="SongConfig.cs" t="Include" />
             <e p="Timer.cs" t="Include" />
+            <e p="Upgrade.cs" t="Include" />
             <e p="Upgrades.cs" t="Include" />
             <e p="UpgradesPanel.cs" t="Include" />
           </e>
@@ -232,10 +237,11 @@
             <e p="Factory" t="Include">
               <e p="GameFactory.cs" t="Include" />
               <e p="IGameFactory.cs" t="Include" />
+              <e p="IUIFactory.cs" t="Include" />
+              <e p="UIFactory.cs" t="Include" />
             </e>
             <e p="GameRunner.cs" t="Include" />
             <e p="ICoroutineRunner.cs" t="Include" />
-            <e p="IUIFactory.cs" t="Include" />
             <e p="SceneLoader.cs" t="Include" />
             <e p="Scopes" t="Include">
               <e p="ServicesScope.cs" t="Include" />
@@ -264,6 +270,7 @@
               <e p="SaveLoad" t="Include">
                 <e p="ISaveLoadService.cs" t="Include" />
                 <e p="SaveLoadService.cs" t="Include" />
+                <e p="SceneNames.cs" t="Include" />
               </e>
               <e p="StaticData" t="Include">
                 <e p="IStaticDataService.cs" t="Include" />
@@ -272,15 +279,17 @@
             </e>
             <e p="States" t="Include">
               <e p="BootstrapState.cs" t="Include" />
-              <e p="GameLoopState.cs" t="Include" />
               <e p="GameStateMachine.cs" t="Include" />
+              <e p="IExitableState.cs" t="Include" />
+              <e p="IPayloadedState.cs" t="Include" />
               <e p="IState.cs" t="Include" />
               <e p="LoadLevelState.cs" t="Include" />
               <e p="LoadProgressState.cs" t="Include" />
+              <e p="MainMenuState.cs" t="Include" />
             </e>
-            <e p="UIFactory.cs" t="Include" />
           </e>
           <e p="InventorySystem" t="Include">
+            <e p="CardLevel.cs" t="Include" />
             <e p="DragAndDropItem.cs" t="Include" />
             <e p="Inventory.cs" t="Include" />
             <e p="InventoryItem.cs" t="Include" />
@@ -288,6 +297,7 @@
           </e>
           <e p="Logic" t="Include">
             <e p="LoadingCurtain.cs" t="Include" />
+            <e p="MainMenuActivePopupSetter.cs" t="Include" />
           </e>
           <e p="MyCustomEditor" t="Include">
             <e p="EnumActionAttribute.cs" t="Include" />
@@ -303,13 +313,21 @@
           <e p="UI" t="Include">
             <e p="BaseAnimationProvider.cs" t="Include" />
             <e p="BasePopup.cs" t="Include" />
-            <e p="LoadingCurtain.cs" t="Include" />
-            <e p="LoosePanel.cs" t="Include" />
+            <e p="MainMenuPopup.cs" t="Include" />
             <e p="PopupAnimator.cs" t="Include" />
+            <e p="Popups" t="Include">
+              <e p="BattlePopup.cs" t="Include" />
+              <e p="CardsPopup.cs" t="Include" />
+              <e p="LoadingCurtainPopup.cs" t="Include" />
+              <e p="LosingPopup.cs" t="Include" />
+              <e p="RewardCoinsPopup.cs" t="Include" />
+              <e p="RewardCrystalsPopup.cs" t="Include" />
+              <e p="SettingsPopup.cs" t="Include" />
+            </e>
             <e p="SafeArea.cs" t="Include" />
-            <e p="Settings.cs" t="Include" />
-            <e p="Switchable.cs" t="Include" />
-            <e p="VolumeControl.cs" t="Include" />
+            <e p="SettingsAnimationProvider.cs" t="Include" />
+            <e p="VolumeСontrol.cs" t="Include" />
+            <e p="WorkshopPopup.cs" t="Include" />
           </e>
         </e>
         <e p="TextMesh Pro" t="Include">

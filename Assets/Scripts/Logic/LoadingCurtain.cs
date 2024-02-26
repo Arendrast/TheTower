@@ -1,7 +1,7 @@
 using System.Collections;
 using UnityEngine;
 
-namespace Assets.TBR.Scripts.Logic
+namespace Logic
 {
     public class LoadingCurtain : MonoBehaviour
     {
@@ -23,7 +23,7 @@ namespace Assets.TBR.Scripts.Logic
             while (_curtain.alpha > 0)
             {
                 _curtain.alpha -= _speedChangeFade;
-                yield return new WaitForSeconds(_speedChangeFade);
+                yield return new WaitForSecondsRealtime(_speedChangeFade);
             }
 
             gameObject.SetActive(false);

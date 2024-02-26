@@ -1,7 +1,10 @@
 using System.Collections.Generic;
+using Currencies;
+using General;
 using Infrastructure.AssetManagement;
 using Infrastructure.Services.Input;
 using Infrastructure.Services.PersistentProgress;
+using Player;
 using UnityEngine;
 
 namespace Infrastructure.Factory
@@ -23,7 +26,33 @@ namespace Infrastructure.Factory
 
         public GameObject CreatePlayer(Vector3 at)
         {
+            _playerGameObject = InstantiateRegistered(AssetPath.PlayerPrefabPath);
+
             return _playerGameObject;
+        }
+
+        public Upgrades CreateUpgrades(Tower tower, TowerHealth towerHealth, MoneyCurrency moneyCurrency)
+        {
+            var upgrades = _assets.Instantiate<Upgrades>();
+            upgrades.Construct(tower, towerHealth, moneyCurrency);
+            
+            return upgrades;
+        }
+
+        public MoneyCurrency CreateMoneyCurrency()
+        {
+            var moneyCurrency = _assets.Instantiate<MoneyCurrency>(AssetPath.Currencies);
+
+            return moneyCurrency;
+        }
+
+        public MusicPlayer CreateMusicPlayer()
+        {
+            var musicPlayer = _assets.Instantiate<MusicPlayer>();
+            var songConfig = _assets.Instantiate<SongConfig>(AssetPath.StaticData);
+            musicPlayer.Construct(songConfig.Songs);
+
+            return musicPlayer;
         }
 
         public void Cleanup()

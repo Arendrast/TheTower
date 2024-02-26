@@ -1,0 +1,111 @@
+%YAML 1.1
+%TAG !u! tag:unity3d.com,2011:
+--- !u!1 &2314306123460372693
+GameObject:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  serializedVersion: 6
+  m_Component:
+  - component: {fileID: 869424466145001634}
+  - component: {fileID: 6907544536067524422}
+  m_Layer: 0
+  m_Name: SpawnEnemy
+  m_TagString: Untagged
+  m_Icon: {fileID: 0}
+  m_NavMeshLayer: 0
+  m_StaticEditorFlags: 0
+  m_IsActive: 1
+--- !u!4 &869424466145001634
+Transform:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 2314306123460372693}
+  serializedVersion: 2
+  m_LocalRotation: {x: -0, y: -0, z: -0, w: 1}
+  m_LocalPosition: {x: -0.65, y: 2.01, z: 0}
+  m_LocalScale: {x: 1, y: 1, z: 1}
+  m_ConstrainProportionsScale: 0
+  m_Children: []
+  m_Father: {fileID: 0}
+  m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
+--- !u!114 &6907544536067524422
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 2314306123460372693}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: e247361a5ce75c3428212ec86f2e6838, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  _radiusOfSpawnArea: 225
+  _ratioRadiusOfDrawingCircleToReal: 57.5
+  _timeBeforeStartNextWave: 0.5
+  _timeBeforeStartOneWave: 1
+  _onWin:
+    m_PersistentCalls:
+      m_Calls: []
+  _towerHealth: {fileID: 0}
+  _moneyCurrency: {fileID: 0}
+  _isDrawSpawnZone: 1
+  _speedMovementSliderWavePerSecond: 1
+  _sliderWave: {fileID: 0}
+  _textNumberWave: {fileID: 0}
+  _waveList:
+  - <ListOfStages>k__BackingField:
+    - <EnemyList>k__BackingField:
+      - <Enemy>k__BackingField: {fileID: 3120398571260050361, guid: 421caa9c530bb924a9b0a45232cf2a27, type: 3}
+        <TimeToSpawn>k__BackingField: 3
+        <Number>k__BackingField: 1
+      - <Enemy>k__BackingField: {fileID: 3120398571260050361, guid: b8d7e6bec188ba540ab95aaaeded4e64, type: 3}
+        <TimeToSpawn>k__BackingField: 1
+        <Number>k__BackingField: 2
+      - <Enemy>k__BackingField: {fileID: 3120398571260050361, guid: db5d226c8a5aa2f4384850dab9ab5347, type: 3}
+        <TimeToSpawn>k__BackingField: 2
+        <Number>k__BackingField: 3
+      - <Enemy>k__BackingField: {fileID: 3120398571260050361, guid: b8d7e6bec188ba540ab95aaaeded4e64, type: 3}
+        <TimeToSpawn>k__BackingField: 1
+        <Number>k__BackingField: 3
+    - <EnemyList>k__BackingField:
+      - <Enemy>k__BackingField: {fileID: 3120398571260050361, guid: 8bc9465419ecaa240b43cde3358d4f82, type: 3}
+        <TimeToSpawn>k__BackingField: 1
+        <Number>k__BackingField: 3
+      - <Enemy>k__BackingField: {fileID: 3120398571260050361, guid: 421caa9c530bb924a9b0a45232cf2a27, type: 3}
+        <TimeToSpawn>k__BackingField: 2
+        <Number>k__BackingField: 1
+      - <Enemy>k__BackingField: {fileID: 3120398571260050361, guid: b8d7e6bec188ba540ab95aaaeded4e64, type: 3}
+        <TimeToSpawn>k__BackingField: 1
+        <Number>k__BackingField: 6
+  - <ListOfStages>k__BackingField:
+    - <EnemyList>k__BackingField:
+      - <Enemy>k__BackingField: {fileID: 3120398571260050361, guid: b8d7e6bec188ba540ab95aaaeded4e64, type: 3}
+        <TimeToSpawn>k__BackingField: 2
+        <Number>k__BackingField: 6
+      - <Enemy>k__BackingField: {fileID: 3120398571260050361, guid: 8bc9465419ecaa240b43cde3358d4f82, type: 3}
+        <TimeToSpawn>k__BackingField: 1
+        <Number>k__BackingField: 7
+  - <ListOfStages>k__BackingField:
+    - <EnemyList>k__BackingField:
+      - <Enemy>k__BackingField: {fileID: 3120398571260050361, guid: b8d7e6bec188ba540ab95aaaeded4e64, type: 3}
+        <TimeToSpawn>k__BackingField: 2
+        <Number>k__BackingField: 6
+      - <Enemy>k__BackingField: {fileID: 3120398571260050361, guid: 421caa9c530bb924a9b0a45232cf2a27, type: 3}
+        <TimeToSpawn>k__BackingField: 1
+        <Number>k__BackingField: 3
+  - <ListOfStages>k__BackingField:
+    - <EnemyList>k__BackingField:
+      - <Enemy>k__BackingField: {fileID: 3120398571260050361, guid: b8d7e6bec188ba540ab95aaaeded4e64, type: 3}
+        <TimeToSpawn>k__BackingField: 2
+        <Number>k__BackingField: 6
+      - <Enemy>k__BackingField: {fileID: 3120398571260050361, guid: b8d7e6bec188ba540ab95aaaeded4e64, type: 3}
+        <TimeToSpawn>k__BackingField: 1
+        <Number>k__BackingField: 7
+      - <Enemy>k__BackingField: {fileID: 3120398571260050361, guid: 421caa9c530bb924a9b0a45232cf2a27, type: 3}
+        <TimeToSpawn>k__BackingField: 1
+        <Number>k__BackingField: 4

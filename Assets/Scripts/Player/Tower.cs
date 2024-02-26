@@ -66,7 +66,6 @@ namespace Player
                 _upgrades.DictOfUpgrades[upgradeCriticalFactor].OnChangeValue += value => _criticalFactor = value;
                 _upgrades.DictOfUpgrades[upgradeDamageOnMeter].OnChangeValue += value => _damageOnMeter = value;
             }
-
             else
             {
                 _upgrades.DictOfUpgrades[upgradeDamage].OnChangeValue -= value => _damage = value;
